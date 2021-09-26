@@ -11,3 +11,16 @@ C:\Users\БЛэкс\source\repos\Optimum\Optimum\obj\Debug\netcoreapp3.1\Optimum
 C:\Users\БЛэкс\source\repos\Optimum\Optimum\obj\Debug\netcoreapp3.1\Optimum.dll
 C:\Users\БЛэкс\source\repos\Optimum\Optimum\obj\Debug\netcoreapp3.1\Optimum.pdb
 C:\Users\БЛэкс\source\repos\Optimum\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.exe
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.deps.json
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.json
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.dev.json
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.AssemblyReference.cache
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfoInputs.cache
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfo.cs
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.CoreCompileInputs.cache
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache
