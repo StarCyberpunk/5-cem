@@ -24,3 +24,16 @@ C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.cs
 C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.dll
 C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.pdb
 C:\Users\notma\Documents\GitHub\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.exe
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.deps.json
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.json
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.dev.json
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\bin\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csprojAssemblyReference.cache
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfoInputs.cache
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfo.cs
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.CoreCompileInputs.cache
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache
