@@ -110,7 +110,7 @@ namespace Optimum
         }
         public static Vector Grad(Vector xn, double eps, Fun2 func, double h) {
             Vector xnach = new Vector(xn);
-            int k = 2;
+            int k = 1;
             int n = xn.Size;
             double fn = func(xn);
             Vector xs = new Vector(xn);
@@ -154,5 +154,123 @@ namespace Optimum
             return xs;
 
     }
+        public static Vector ModifiyGrad(Vector xn, double eps, Fun2 func)
+        {
+            int k = 1;
+            int n = xn.Size;
+            double fn = func(xn);
+            double h = eps;
+            Vector xs = new Vector(xn);
+            Vector gr;
+            Vector dx;
+            Vector hOpred= new Vector(xn);
+            double delta = 0.5 * eps;
+            double fs = fn + func(xs);
+            do
+            {
+                gr = new Vector(n);
+                for (int i = 0; i < n; i++)
+                {
+                    
+                    Vector xg = xn.Copy();
+                    xg[i] = xg[i] + delta;
+                    gr[i] = (func(xg) - fn) / delta;
+                    hOpred[i] = eps;
+                }
+                dx = -h * gr;
+                xs = xn - h * gr;
+                fs = func(xs);
+
+                xn = xs;
+                fn = fs;
+                k++;
+
+            }
+            while (Math.Abs(dx.NormaE()) > eps);
+            Console.WriteLine(k);
+            return xs;
+        }
+
+        public static Vector GradSoprIspra(Vector xn, double eps, Fun2 func, double h)
+        {
+            Vector xnach = new Vector(xn);
+            int k = 1;
+            int n = xn.Size;
+            double fn = func(xn);
+            double yk = eps;
+            Vector xs = new Vector(xn);
+            Vector gr;
+            Vector grpred=new Vector(n);
+            Vector dx;
+            double delta = 0.5 * eps;
+            double fs = fn + func(xs);
+            do
+            {
+                gr = new Vector(n);
+                
+                for (int i = 0; i < n; i++)
+                {
+                    Vector xg = xn.Copy();
+                    xg[i] = xg[i] + delta;
+                    gr[i] = (func(xg) - fn) / delta;
+                }
+                gr = gr + yk * grpred;
+                dx = -h * gr;
+                xs = xn - h * gr;
+                fs = func(xs);
+                if (fs > fn)
+                {
+                    h = -h / 2;
+                }
+                else
+                {
+                    h = 1.2 * h;
+
+                }
+                xn = xs;
+                fn = fs;
+                k++;
+
+            }
+            while (Math.Abs(dx.NormaE()) > eps);
+            Console.WriteLine(k);
+            return xs;
+
+        }
+        public static Vector MSP(Vector xn,int n,double h, double eps,Fun2 func)
+        {
+            Random rnd = new Random();
+            do
+            {
+                Vector rnvec = EdRand(n, rnd);
+                Vector xs = xn + h * rnvec;
+                double fn = func(xn);
+                double fs = func(xs);
+                if (fs < fn)
+                {
+                    xn = xs;
+                    h = h * 1.2;
+                }
+                else
+                {
+                    h = h / 2;
+                }
+            } while (h < eps);
+            return xn;
+
+        }
+        private static Vector EdRand(int n,Random rnd)
+        {
+            double[] e = new double[n];
+            for(int i = 0; i < n; i++)
+            {
+                e[i] = rnd.Next(0, 1) - 0.5;
+            }
+            Vector ee = new Vector(e);
+            double[] eee = new double[1];
+            eee[0] = ee.NormaE();
+            return new Vector(eee);
+        }
+
     } 
 }
