@@ -67,7 +67,7 @@ namespace Optimum
                 }
                 k++;
             }
-            Console.WriteLine("k={0}", k);
+            /*Console.WriteLine("k={0}", k);*/
             return (a + b) / 2;
         }
         public static double MetodKvadAproksim(double x1, double x2, double x3, double eps, Fun fun)
@@ -156,31 +156,34 @@ namespace Optimum
     }
         public static Vector ModifiyGrad(Vector xn, double eps, Fun2 func)
         {
+            Vector xnach = new Vector(xn);
             int k = 1;
             int n = xn.Size;
             double fn = func(xn);
-            double h = eps;
             Vector xs = new Vector(xn);
             Vector gr;
             Vector dx;
-            Vector hOpred= new Vector(xn);
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
+            double h = eps;
+            Vector hopt = new Vector(xn);
             do
             {
                 gr = new Vector(n);
                 for (int i = 0; i < n; i++)
                 {
-                    
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
-                    hOpred[i] = eps;
+                    hopt[i] = h;
+                }
+                //Условие + границы
+                while (fs > fn) {
+                    h = GoldSechenie(h, 100, eps, he => func(xn-he * gr));
                 }
                 dx = -h * gr;
                 xs = xn - h * gr;
                 fs = func(xs);
-
                 xn = xs;
                 fn = fs;
                 k++;
@@ -189,44 +192,68 @@ namespace Optimum
             while (Math.Abs(dx.NormaE()) > eps);
             Console.WriteLine(k);
             return xs;
+
+
+        
         }
 
-        public static Vector GradSoprIspra(Vector xn, double eps, Fun2 func, double h)
+        public static Vector GradSoprIspra(Vector xn, double eps, Fun2 func)
         {
             Vector xnach = new Vector(xn);
             int k = 1;
             int n = xn.Size;
             double fn = func(xn);
-            double yk = eps;
             Vector xs = new Vector(xn);
-            Vector gr;
-            Vector grpred=new Vector(n);
+            Vector gr=new Vector(n);
             Vector dx;
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
+            double h = eps;
+            Vector hopt = new Vector(xn);
+            Vector grold=new Vector(n);
+            double kof;
+
+            for (int i = 0; i < n; i++)
+            {
+                Vector xg = xn.Copy();
+                xg[i] = xg[i] + delta;
+                gr[i] = (func(xg) - fn) / delta;
+                hopt[i] = h;
+            }
+            //Условие + границы
+            while (fs > fn)
+            {
+                h = GoldSechenie(h, 100, eps, he => func(xn - he * gr));
+            }
+            dx = -h * gr;
+            xs = xn - h * gr;
+            fs = func(xs);
+            grold = gr;
+            xn = xs;
+            fn = fs;
+            k++;
+
             do
             {
-                gr = new Vector(n);
                 
                 for (int i = 0; i < n; i++)
                 {
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
+                    hopt[i] = h;
                 }
-                gr = gr + yk * grpred;
+                //Условие + границы
+                while (fs > fn)
+                {
+                    h = GoldSechenie(h, 100, eps, he => func(xn - he * gr));
+                }
+                kof = (gr.NormaE() * gr.NormaE()) / (grold.NormaE() * grold.NormaE());
+                gr = gr + kof * grold;
                 dx = -h * gr;
                 xs = xn - h * gr;
                 fs = func(xs);
-                if (fs > fn)
-                {
-                    h = -h / 2;
-                }
-                else
-                {
-                    h = 1.2 * h;
-
-                }
+                grold = gr;
                 xn = xs;
                 fn = fs;
                 k++;
@@ -236,35 +263,62 @@ namespace Optimum
             Console.WriteLine(k);
             return xs;
 
+
         }
         public static Vector MSP(Vector xn,int n,double h, double eps,Fun2 func)
         {
             Random rnd = new Random();
+            int ni = xn.Size;
+            Vector xs=new Vector(ni);
             do
             {
+                
                 Vector rnvec = EdRand(n, rnd);
-                Vector xs = xn + h * rnvec;
+                for(int i = 0; i < ni; i++)
+                {
+                    xs[i] = xn[i] - h * rnvec[0];
+                }
+                
                 double fn = func(xn);
                 double fs = func(xs);
                 if (fs < fn)
                 {
                     xn = xs;
-                    h = h * 1.2;
                 }
                 else
                 {
                     h = h / 2;
                 }
-            } while (h < eps);
+            } while (h > eps);
             return xn;
 
+        }
+        public static Vector MDN(Vector xn,double eps,Fun2 func)
+        {
+           double n = xn.size;
+           double m = xn.size - 1;
+            double fn = func(xn);
+            double sum = 0;
+            double xs =0;
+            for(int i=0; i < n; i++)
+            {
+                sum += xn[i];
+            }
+            xs = 1 / n * sum;
+
+
+        }
+        private static Vector FindMax(Vector xn,Fun2 func)
+        {
+            
+            for
         }
         private static Vector EdRand(int n,Random rnd)
         {
             double[] e = new double[n];
             for(int i = 0; i < n; i++)
             {
-                e[i] = rnd.Next(0, 1) - 0.5;
+                e[i] = rnd.NextDouble()-0.5 ;
             }
             Vector ee = new Vector(e);
             double[] eee = new double[1];
