@@ -13,7 +13,7 @@ namespace Optimum
             int k = 1;
             double fn = fun(xn);
             double xs = xn + h;
-            double fs = fn + fun(xs);
+            double fs = fun(xs);
             while (Math.Abs(h) > eps)
             {
                 if (fs > fn)
@@ -33,7 +33,7 @@ namespace Optimum
                 fs = fun(xs);
                 k++;
             }
-            Console.WriteLine("k={0}", k);
+            /*Console.WriteLine("k={0}", k);*/
             return xn;
         }
         public static double GoldSechenie(double a, double b, double eps, Fun fun)
@@ -123,11 +123,7 @@ namespace Optimum
                 gr = new Vector(n);
                 for (int i = 0; i < n; i++)
                 {
-                    /*Vector t = new Vector(1);
-                    t[0] = xn[i];
-                    Vector delta2 = new Vector(1);
-                    delta2[0] = delta+xn[i];
-                    gr[i+1] = (func(delta2)-func(t))/delta;*/
+                    
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
@@ -165,8 +161,8 @@ namespace Optimum
             Vector dx;
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
-            double h = eps;
-            Vector hopt = new Vector(xn);
+            double h = 0.1;
+           
             do
             {
                 gr = new Vector(n);
@@ -175,15 +171,14 @@ namespace Optimum
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
-                    hopt[i] = h;
+                   
                 }
-                //Условие + границы
-                while (fs > fn) {
-                    h = GoldSechenie(h, 100, eps, he => func(xn-he * gr));
-                }
+                    h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
+                    dx = -h * gr;
+                    xs = xn - h * gr;
+                    fs = func(xs);
+                
                 dx = -h * gr;
-                xs = xn - h * gr;
-                fs = func(xs);
                 xn = xs;
                 fn = fs;
                 k++;
@@ -208,7 +203,7 @@ namespace Optimum
             Vector dx;
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
-            double h = eps;
+            double h = 0.01;
             Vector hopt = new Vector(xn);
             Vector grold=new Vector(n);
             double kof;
@@ -220,11 +215,10 @@ namespace Optimum
                 gr[i] = (func(xg) - fn) / delta;
                 hopt[i] = h;
             }
-            //Условие + границы
-            while (fs > fn)
-            {
-                h = GoldSechenie(h, 100, eps, he => func(xn - he * gr));
-            }
+            
+
+            h = Shagoviy(h, 0.1, eps, he => func(xn - he * gr));
+
             dx = -h * gr;
             xs = xn - h * gr;
             fs = func(xs);
@@ -243,11 +237,10 @@ namespace Optimum
                     gr[i] = (func(xg) - fn) / delta;
                     hopt[i] = h;
                 }
-                //Условие + границы
-                while (fs > fn)
-                {
-                    h = GoldSechenie(h, 100, eps, he => func(xn - he * gr));
-                }
+                
+                
+                    h = Shagoviy(h, 0.1, eps, he => func(xn - he * gr));
+                
                 kof = (gr.NormaE() * gr.NormaE()) / (grold.NormaE() * grold.NormaE());
                 gr = gr + kof * grold;
                 dx = -h * gr;
@@ -265,54 +258,91 @@ namespace Optimum
 
 
         }
-        public static Vector MSP(Vector xn,int n,double h, double eps,Fun2 func)
+        public static Vector MSP(Vector xn,int n,Vector h, double eps,Fun2 func)
         {
             Random rnd = new Random();
             int ni = xn.Size;
             Vector xs=new Vector(ni);
+            Vector[] xpr = new Vector[3*n];
             do
             {
                 
                 Vector rnvec = EdRand(n, rnd);
-                for(int i = 0; i < ni; i++)
-                {
-                    xs[i] = xn[i] - h * rnvec[0];
-                }
+             //  for(int i=0;i)
+                    xs = xn - h * rnvec[0];
+                
                 
                 double fn = func(xn);
                 double fs = func(xs);
                 if (fs < fn)
                 {
                     xn = xs;
+                    h = h * 1.2;
                 }
                 else
                 {
-                    h = h / 2;
+                    h = h * 0.5;
                 }
-            } while (h > eps);
+            } while (h[0] > eps);
             return xn;
 
         }
-        public static Vector MDN(Vector xn,double eps,Fun2 func)
+        /*public static Vector MDN(Vector[] xn, double eps, Fun2 func)
         {
-           double n = xn.size;
-           double m = xn.size - 1;
-            double fn = func(xn);
-            double sum = 0;
-            double xs =0;
-            for(int i=0; i < n; i++)
+            double n = xn.Length;
+            double m = n - 1;
+            Vector xmax = FindMax(xn, func);
+            Vector xc = new Vector(xn[0].Size);
+            double cps = 1 / n;
+            for (int i = 0; i < n; i++)
             {
-                sum += xn[i];
+                if (xn[i] == xmax) { }
+                else
+                {
+                    xc += xn[i]*cps;
+                }
             }
-            xs = 1 / n * sum;
+            Vector xotr = xmax + 2 * (xc - xmax);
+            double fotr = func(xotr);
+            double fmin=
+
+
+
 
 
         }
-        private static Vector FindMax(Vector xn,Fun2 func)
+        private static Vector FindMax(Vector[] xn, Fun2 func)
         {
-            
-            for
+            Vector max = new Vector(xn[0].size);
+            for(int i = 0; i < xn[0].size; i++)
+            {
+                max[i] = -100;
+            }
+            for(int j = 0; j < xn.Length; j++)
+            {
+                if (func(xn[j]) >= func(max))
+                {
+                    max = xn[j];
+                }
+            }
+            return max;
         }
+        private static Vector FindMin(Vector[] xn, Fun2 func)
+        {
+            Vector min = new Vector(xn[0].size);
+            for (int i = 0; i < xn[0].size; i++)
+            {
+                max[i] = 100;
+            }
+            for (int j = 0; j < xn.Length; j++)
+            {
+                if (func(xn[j]) >= func(max))
+                {
+                    max = xn[j];
+                }
+            }
+            return max;
+        }*/
         private static Vector EdRand(int n,Random rnd)
         {
             double[] e = new double[n];
