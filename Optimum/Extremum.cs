@@ -242,7 +242,7 @@ namespace Optimum
                 h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
                 //настройка коэфов
                 
-                kof = (gr*(gr-grold))/(grold*grold);
+                kof = gr.NormaE()*gr.NormaE()/(grold.NormaE()*grold.NormaE());
                 gr = gr + kof * grold;
                 dx = -h * gr;
                 xs = xn - h * gr;
@@ -265,17 +265,23 @@ namespace Optimum
             int ni = xn.Size;
             Vector xs=new Vector(ni);
             Vector[] xpr = new Vector[3*n];
+            double fpr = 0;
+            
             do
             {
+                xs = xn - EdRandR(2, rnd);
                 double fn = func(xn);
-                double fss = 10;
-                Vector rnvec = EdRand(n, rnd);
-                for (int i = 0; i<3*n;i++) {
-                    xpr[i] = xn - h * rnvec;
-                    double fs = func(xpr[i]);
-                    if (fss < fs) { fss = fs; xs = xpr[i]; }
-                }
+                double fss = func(xs);
                 
+                for (int i = 0; i<3*n;i++) {
+                    Vector rnvec = EdRandR(2, rnd);
+                    Vector po= xn - h * rnvec;
+                    xpr[i] = po;
+                    double fs = func(xpr[i]);
+                    if (fss > fs) { fss = fs; xs = xpr[i]; }
+                    
+                }
+                if (fpr == fss) break;
                 if (fss < fn)
                 {
                     xn = xs;
@@ -356,6 +362,16 @@ namespace Optimum
             double[] eee = new double[1];
             eee[0] = ee.NormaE();
             return new Vector(eee);
+        }
+        private static Vector EdRandR(int n, Random rnd)
+        {
+            double[] e = new double[n];
+            for (int i = 0; i < n; i++)
+            {
+                e[i] = rnd.NextDouble() - 0.5;
+            }
+            Vector ee = new Vector(e);
+            return ee;
         }
 
     } 
