@@ -204,7 +204,7 @@ namespace Optimum
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
             double h = 0.01;
-            Vector hopt = new Vector(xn);
+            
             Vector grold=new Vector(n);
             double kof;
 
@@ -213,16 +213,16 @@ namespace Optimum
                 Vector xg = xn.Copy();
                 xg[i] = xg[i] + delta;
                 gr[i] = (func(xg) - fn) / delta;
-                hopt[i] = h;
+                
             }
-            
 
-            h = Shagoviy(h, 0.1, eps, he => func(xn - he * gr));
+
+            h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
 
             dx = -h * gr;
             xs = xn - h * gr;
             fs = func(xs);
-            grold = gr;
+            grold = gr.Copy();
             xn = xs;
             fn = fs;
             k++;
@@ -235,18 +235,19 @@ namespace Optimum
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
-                    hopt[i] = h;
+                    
                 }
+
+
+                h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
+                //настройка коэфов
                 
-                
-                    h = Shagoviy(h, 0.1, eps, he => func(xn - he * gr));
-                
-                kof = (gr.NormaE() * gr.NormaE()) / (grold.NormaE() * grold.NormaE());
+                kof = (gr*(gr-grold))/(grold*grold);
                 gr = gr + kof * grold;
                 dx = -h * gr;
                 xs = xn - h * gr;
                 fs = func(xs);
-                grold = gr;
+                grold = gr.Copy();
                 xn = xs;
                 fn = fs;
                 k++;
@@ -258,7 +259,7 @@ namespace Optimum
 
 
         }
-        public static Vector MSP(Vector xn,int n,Vector h, double eps,Fun2 func)
+        public static Vector MSP(Vector xn,int n,double h, double eps,Fun2 func)
         {
             Random rnd = new Random();
             int ni = xn.Size;
@@ -266,15 +267,16 @@ namespace Optimum
             Vector[] xpr = new Vector[3*n];
             do
             {
-                
-                Vector rnvec = EdRand(n, rnd);
-             //  for(int i=0;i)
-                    xs = xn - h * rnvec[0];
-                
-                
                 double fn = func(xn);
-                double fs = func(xs);
-                if (fs < fn)
+                double fss = 10;
+                Vector rnvec = EdRand(n, rnd);
+                for (int i = 0; i<3*n;i++) {
+                    xpr[i] = xn - h * rnvec;
+                    double fs = func(xpr[i]);
+                    if (fss < fs) { fss = fs; xs = xpr[i]; }
+                }
+                
+                if (fss < fn)
                 {
                     xn = xs;
                     h = h * 1.2;
@@ -283,7 +285,7 @@ namespace Optimum
                 {
                     h = h * 0.5;
                 }
-            } while (h[0] > eps);
+            } while (h > eps);
             return xn;
 
         }

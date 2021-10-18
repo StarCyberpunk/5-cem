@@ -225,6 +225,7 @@ namespace Optimum
             this.ForEach((ref double f, ref double l) => result += f * l, vector);
             return result;
         }
+       
         private delegate void Action2(ref double v, ref double l);
         private delegate void Action(ref double v);
     }
