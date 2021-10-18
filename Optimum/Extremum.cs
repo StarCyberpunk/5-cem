@@ -295,41 +295,102 @@ namespace Optimum
             return xn;
 
         }
-        /*public static Vector MDN(Vector[] xn, double eps, Fun2 func)
+        public static Vector MDN(Vector[] xn, double eps, Fun2 func)
         {
             double n = xn.Length;
-            double m = n - 1;
+            double m = n + 1;
             Vector xmax = FindMax(xn, func);
+            Vector xmin = FindMin(xn, func);
             Vector xc = new Vector(xn[0].Size);
             double cps = 1 / n;
-            for (int i = 0; i < n; i++)
+            double kof = 2;
+            do
             {
-                if (xn[i] == xmax) { }
+                for (int i = 0; i < n; i++)
+                {
+                    if (xn[i] == xmax) { }
+                    else
+                    {
+                        xc += xn[i] * (cps - 1);
+                    }
+                }
+                Vector xotr = xmax + kof * (xc - xmax);
+                double fotr = func(xotr);
+                double fmin = func(FindMin(xn, func));
+                if (fotr < fmin)
+                {
+                    kof = kof * 2;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (xn[i] == xmax)
+                        {
+                            xn[i] = xotr.Copy();
+                        }
+                    }
+                }
                 else
                 {
-                    xc += xn[i]*cps;
+                    
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (xn[i] == xmax)
+                        {
+                            xn[i] = xotr.Copy();
+                        }
+                    }
+                    //переместить
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (xn[i] != xmin)
+                        {
+                            for(int j = 0; j < xn[i].Size; j++)
+                            {
+                                xn[i][j] = xn[i][j] / 2;
+                            }
+                        }
+                    }
                 }
-            }
-            Vector xotr = xmax + 2 * (xc - xmax);
-            double fotr = func(xotr);
-            double fmin=
+            } while (xmax[0]-xmin[0]<eps);//заглушка
 
+            return FindMin(xn, func);
 
 
 
 
         }
+       /* public static Vector MetodIskluchenia(int n,Fun2 func,Fun ogra)
+        {
+            Vector answer = new Vector(n);
+            double delta = 0.5 * eps;
+            double fn = func(xn);
+            for (int i = 0; i < n; i++)
+            {
+                answer[i] = ogra();
+            }
+            for (int i = 0; i < n; i++)
+            {
+                Vector xg = xn.Copy();
+                xg[i] = xg[i] + delta;
+                gr[i] = (func(xg) - fn) / delta;
+
+            }
+
+            double z = func(answer);
+        }*/
         private static Vector FindMax(Vector[] xn, Fun2 func)
         {
             Vector max = new Vector(xn[0].size);
-            for(int i = 0; i < xn[0].size; i++)
+            for (int i = 0; i < xn[0].size; i++)
             {
-                max[i] = -100;
+                max[i] = 0;//заглушка
             }
-            for(int j = 0; j < xn.Length; j++)
+            for (int j = 0; j < xn.Length; j++)
             {
+                double z = func(xn[j]);
+                double zz = func(max);
                 if (func(xn[j]) >= func(max))
                 {
+                    
                     max = xn[j];
                 }
             }
@@ -340,17 +401,19 @@ namespace Optimum
             Vector min = new Vector(xn[0].size);
             for (int i = 0; i < xn[0].size; i++)
             {
-                max[i] = 100;
+                min[i] = 1; //заглушка
             }
             for (int j = 0; j < xn.Length; j++)
             {
-                if (func(xn[j]) >= func(max))
+                double z = func(xn[j]);
+                double zz = func(min);
+                if (func(xn[j]) <= func(min))
                 {
-                    max = xn[j];
+                    min = xn[j];
                 }
             }
-            return max;
-        }*/
+            return min;
+        }
         private static Vector EdRand(int n,Random rnd)
         {
             double[] e = new double[n];
