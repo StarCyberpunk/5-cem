@@ -265,23 +265,26 @@ namespace Optimum
             int ni = xn.Size;
             Vector xs=new Vector(ni);
             Vector[] xpr = new Vector[3*n];
-            double fpr = 0;
-            
+            Vector fxp = new Vector(3*n);
+            double k = 0;
+
             do
             {
                 xs = xn - EdRandR(2, rnd);
                 double fn = func(xn);
                 double fss = func(xs);
                 
+                
                 for (int i = 0; i<3*n;i++) {
                     Vector rnvec = EdRandR(2, rnd);
                     Vector po= xn - h * rnvec;
                     xpr[i] = po;
                     double fs = func(xpr[i]);
+                    fxp[i] = fs;
                     if (fss > fs) { fss = fs; xs = xpr[i]; }
                     
                 }
-                if (fpr == fss) break;
+                
                 if (fss < fn)
                 {
                     xn = xs;
@@ -291,7 +294,9 @@ namespace Optimum
                 {
                     h = h * 0.5;
                 }
+                k++;
             } while (h > eps);
+            Console.WriteLine(k);
             return xn;
 
         }
@@ -302,8 +307,9 @@ namespace Optimum
             Vector xmax = FindMax(xn, func);
             Vector xmin = FindMin(xn, func);
             Vector xc = new Vector(xn[0].Size);
-            double cps = 1 / n;
+            double cps = 1 / (n-1);
             double kof = 2;
+            double k = 20;
             do
             {
                 for (int i = 0; i < n; i++)
@@ -311,12 +317,12 @@ namespace Optimum
                     if (xn[i] == xmax) { }
                     else
                     {
-                        xc += xn[i] * (cps - 1);
+                        xc += xn[i] * cps ;
                     }
                 }
                 Vector xotr = xmax + kof * (xc - xmax);
                 double fotr = func(xotr);
-                double fmin = func(FindMin(xn, func));
+                double fmin = func(xmin);
                 if (fotr < fmin)
                 {
                     kof = kof * 2;
@@ -328,7 +334,7 @@ namespace Optimum
                         }
                     }
                 }
-                else
+                else if(fotr>fmin)
                 {
                     
                     for (int i = 0; i < n; i++)
@@ -338,19 +344,24 @@ namespace Optimum
                             xn[i] = xotr.Copy();
                         }
                     }
-                    //переместить
+                    
+                }
+                else
+                {
                     for (int i = 0; i < n; i++)
                     {
                         if (xn[i] != xmin)
                         {
-                            for(int j = 0; j < xn[i].Size; j++)
+                            for (int j = 0; j < xn[i].Size; j++)
                             {
                                 xn[i][j] = xn[i][j] / 2;
                             }
                         }
                     }
                 }
-            } while (xmax[0]-xmin[0]<eps);//заглушка
+                k--;
+                
+            } while (eps> k);//заглушка
 
             return FindMin(xn, func);
 

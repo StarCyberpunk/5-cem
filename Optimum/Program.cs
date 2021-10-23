@@ -23,9 +23,9 @@ namespace Optimum
             Vector[] xnn = new Vector[3];
             xnn[0] = xn;
            double[] xnnn = new double[2];
-            xnnn[0] = 0;xnnn[1] = 1;
+            xnnn[0] = 2;xnnn[1] = 4;
             xnn[1] = new Vector(xnnn);
-            xnnn[0] = 0;xnnn[1] = 0;
+            xnnn[0] = 4;xnnn[1] = 2;
             xnn[2] = new Vector(xnnn);
 
 
