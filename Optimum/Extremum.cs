@@ -300,57 +300,56 @@ namespace Optimum
             return xn;
 
         }
-        public static Vector MDN(Vector[] xn, double eps, Fun2 func)
+        public static Vector NelderaMida(Vector[] xn, double eps, Fun2 func)
         {
-            double n = xn.Length;
+            int n = xn.Length;
             double m = n + 1;
-            Vector xmax = FindMax(xn, func);
-            Vector xmin = FindMin(xn, func);
+           
             Vector xc = new Vector(xn[0].Size);
             double cps = 1 / (n-1);
-            double kof = 2;
+            double kof = 1;
             double k = 20;
+            double[] fmas = new double[n];
+            
             do
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (xn[i] == xmax) { }
-                    else
-                    {
-                        xc += xn[i] * cps ;
-                    }
+                    fmas[i] = func(xn[i]);
                 }
-                Vector xotr = xmax + kof * (xc - xmax);
+                fmas = ShellSort(fmas);
+                Vector xotr = Rastuzhenie(xn, func, n, ref xc, cps, kof, fmas);
                 double fotr = func(xotr);
-                double fmin = func(xmin);
-                if (fotr < fmin)
+
+                if (fotr < fmas[0])
                 {
                     kof = kof * 2;
+                    
                     for (int i = 0; i < n; i++)
                     {
-                        if (xn[i] == xmax)
+                        if (xn[i] == FindXN(xn, fmas[n - 1], func))
                         {
                             xn[i] = xotr.Copy();
                         }
                     }
                 }
-                else if(fotr>fmin)
+                else if (fotr > fmas[0])
                 {
-                    
+                    kof = kof / 2;
                     for (int i = 0; i < n; i++)
                     {
-                        if (xn[i] == xmax)
+                        if (xn[i] == FindXN(xn, fmas[n - 1], func))
                         {
                             xn[i] = xotr.Copy();
                         }
                     }
-                    
+
                 }
                 else
                 {
                     for (int i = 0; i < n; i++)
                     {
-                        if (xn[i] != xmin)
+                        if (xn[i] != FindXN(xn, fmas[0], func))
                         {
                             for (int j = 0; j < xn[i].Size; j++)
                             {
@@ -360,70 +359,86 @@ namespace Optimum
                     }
                 }
                 k--;
-                
+
             } while (eps> k);//заглушка
 
-            return FindMin(xn, func);
+            return FindXN(xn, fmas[0], func);
 
 
 
 
         }
-       /* public static Vector MetodIskluchenia(int n,Fun2 func,Fun ogra)
+
+        private static Vector Rastuzhenie(Vector[] xn, Fun2 func, int n, ref Vector xc, double cps, double kof, double[] fmas)
         {
-            Vector answer = new Vector(n);
-            double delta = 0.5 * eps;
-            double fn = func(xn);
             for (int i = 0; i < n; i++)
             {
-                answer[i] = ogra();
-            }
-            for (int i = 0; i < n; i++)
-            {
-                Vector xg = xn.Copy();
-                xg[i] = xg[i] + delta;
-                gr[i] = (func(xg) - fn) / delta;
-
-            }
-
-            double z = func(answer);
-        }*/
-        private static Vector FindMax(Vector[] xn, Fun2 func)
-        {
-            Vector max = new Vector(xn[0].size);
-            for (int i = 0; i < xn[0].size; i++)
-            {
-                max[i] = 0;//заглушка
-            }
-            for (int j = 0; j < xn.Length; j++)
-            {
-                double z = func(xn[j]);
-                double zz = func(max);
-                if (func(xn[j]) >= func(max))
+                if (func(xn[i]) == fmas[n - 1]) { }
+                else
                 {
-                    
-                    max = xn[j];
+                    xc += xn[i] * cps;
                 }
             }
-            return max;
+            Vector xotr = xc + kof * (xc - FindXN(xn, fmas[n - 1], func));
+            return xotr;
         }
-        private static Vector FindMin(Vector[] xn, Fun2 func)
+
+        /* public static Vector MetodIskluchenia(int n,Fun2 func,Fun ogra)
+{
+    Vector answer = new Vector(n);
+    double delta = 0.5 * eps;
+    double fn = func(xn);
+    for (int i = 0; i < n; i++)
+    {
+        answer[i] = ogra();
+    }
+    for (int i = 0; i < n; i++)
+    {
+        Vector xg = xn.Copy();
+        xg[i] = xg[i] + delta;
+        gr[i] = (func(xg) - fn) / delta;
+
+    }
+
+    double z = func(answer);
+}*/
+        private static double[] ShellSort(double[] list) 
         {
-            Vector min = new Vector(xn[0].size);
-            for (int i = 0; i < xn[0].size; i++)
+            //расстояние между элементами, которые сравниваются
+            var d = list.Length / 2;
+            while (d >= 1)
             {
-                min[i] = 1; //заглушка
-            }
-            for (int j = 0; j < xn.Length; j++)
-            {
-                double z = func(xn[j]);
-                double zz = func(min);
-                if (func(xn[j]) <= func(min))
+                for (var i = d; i < list.Length; i++)
                 {
-                    min = xn[j];
+                    var j = i;
+                    while ((j >= d) && (list[j - d].CompareTo(list[j]) > 0))
+                    {
+                        Swap(ref list[j], ref list[j - d]);
+                        j = j - d;
+                    }
                 }
+
+                d = d / 2;
             }
-            return min;
+            return list;
+        }
+        private static void Swap(ref double a, ref double b)
+        {
+            double c = a; a = b; b = c;
+        }
+        private static Vector FindXN(Vector[] xn,double res,Fun2 func)
+        {
+            Vector n = new Vector(xn[0].Size);
+            for (int i = 0; i < xn.Length; i++)
+            {
+                if (func(xn[i]) == res) {
+                    n = xn[i];
+                }
+                
+                
+            }
+            if (n == new Vector(xn[0].Size)) throw new Exception();
+            return n;
         }
         private static Vector EdRand(int n,Random rnd)
         {
