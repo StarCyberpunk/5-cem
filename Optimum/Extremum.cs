@@ -306,9 +306,11 @@ namespace Optimum
             double m = n + 1;
            
             Vector xc = new Vector(xn[0].Size);
-            double cps = 1 / (n-1);
+            Vector xotr = new Vector(xn[0].Size);
+            double cps = 1.0 / (n - 1.0);
             double kof = 1;
-            double k = 20;
+            double k = 0;
+            double eeeps = 10;
             double[] fmas = new double[n];
             
             do
@@ -318,13 +320,22 @@ namespace Optimum
                     fmas[i] = func(xn[i]);
                 }
                 fmas = ShellSort(fmas);
-                Vector xotr = Rastuzhenie(xn, func, n, ref xc, cps, kof, fmas);
+                for (int i = 0; i < n; i++)
+                {
+                    if (func(xn[i]) == fmas[n - 1]) { }
+                    else
+                    {
+                        xc += xn[i] * cps;
+                    }
+                }
+                 xotr = xc + kof * (xc - FindXN(xn, fmas[n - 1], func));
                 double fotr = func(xotr);
 
                 if (fotr < fmas[0])
                 {
+
                     kof = kof * 2;
-                    
+                    eeeps = func(FindXN(xn, fmas[n - 1], func)) - func(xotr);
                     for (int i = 0; i < n; i++)
                     {
                         if (xn[i] == FindXN(xn, fmas[n - 1], func))
@@ -336,6 +347,7 @@ namespace Optimum
                 else if (fotr > fmas[0])
                 {
                     kof = kof / 2;
+                    eeeps = -func(FindXN(xn, fmas[n - 1], func)) + func(xotr);
                     for (int i = 0; i < n; i++)
                     {
                         if (xn[i] == FindXN(xn, fmas[n - 1], func))
@@ -358,10 +370,10 @@ namespace Optimum
                         }
                     }
                 }
-                k--;
+                k++;
 
-            } while (eps> k);//заглушка
-
+            } while (eps< eeeps);// https://habr.com/ru/post/332092/
+            Console.WriteLine(k);
             return FindXN(xn, fmas[0], func);
 
 
@@ -369,19 +381,7 @@ namespace Optimum
 
         }
 
-        private static Vector Rastuzhenie(Vector[] xn, Fun2 func, int n, ref Vector xc, double cps, double kof, double[] fmas)
-        {
-            for (int i = 0; i < n; i++)
-            {
-                if (func(xn[i]) == fmas[n - 1]) { }
-                else
-                {
-                    xc += xn[i] * cps;
-                }
-            }
-            Vector xotr = xc + kof * (xc - FindXN(xn, fmas[n - 1], func));
-            return xotr;
-        }
+        
 
         /* public static Vector MetodIskluchenia(int n,Fun2 func,Fun ogra)
 {
