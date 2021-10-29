@@ -305,16 +305,18 @@ namespace Optimum
             int n = xn.Length;
             double m = n + 1;
            
-            Vector xc = new Vector(xn[0].Size);
+            
             Vector xotr = new Vector(xn[0].Size);
             double cps = 1.0 / (n - 1.0);
-            double kof = 1;
+           
             double k = 0;
             double eeeps = 10;
             double[] fmas = new double[n];
             
             do
             {
+                Vector xc = new Vector(xn[0].Size);
+                double kof = 1;
                 for (int i = 0; i < n; i++)
                 {
                     fmas[i] = func(xn[i]);
@@ -333,9 +335,14 @@ namespace Optimum
 
                 if (fotr < fmas[0])
                 {
-
-                    kof = kof * 2;
-                    eeeps = func(FindXN(xn, fmas[n - 1], func)) - func(xotr);
+                   double newfotr = fotr;
+                    
+                    eeeps =Math.Abs( func(FindXN(xn, fmas[n - 1], func)) - func(xotr));
+                    if (fotr < fmas[1])
+                    {
+                        kof = kof * 2;
+                        xotr = xc + kof * (xotr-xc );
+                    }
                     for (int i = 0; i < n; i++)
                     {
                         if (xn[i] == FindXN(xn, fmas[n - 1], func))
@@ -347,7 +354,8 @@ namespace Optimum
                 else if (fotr > fmas[0])
                 {
                     kof = kof / 2;
-                    eeeps = -func(FindXN(xn, fmas[n - 1], func)) + func(xotr);
+                    xotr = xc + kof * ( FindXN(xn, fmas[n - 1], func)-xc);
+                    eeeps = Math.Abs(-func(FindXN(xn, fmas[n - 1], func)) + func(xotr));
                     for (int i = 0; i < n; i++)
                     {
                         if (xn[i] == FindXN(xn, fmas[n - 1], func))
