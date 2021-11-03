@@ -389,27 +389,24 @@ namespace Optimum
 
         }
 
-        
+        public static Vector Lagrang(Vector xn,Fun2 func,double eps,Fun2 ogran)
+        {
+            double delta = eps * 0.5;
+            double lyzmd = 1;
+            int n = xn.Size;
+            Vector y = new Vector(n+1);
+            double funcdiff = func(xn) + ogran(xn) * lyzmd;
+                for (int i = 0; i < n; i++)
+            {
 
-        /* public static Vector MetodIskluchenia(int n,Fun2 func,Fun ogra)
-{
-    Vector answer = new Vector(n);
-    double delta = 0.5 * eps;
-    double fn = func(xn);
-    for (int i = 0; i < n; i++)
-    {
-        answer[i] = ogra();
-    }
-    for (int i = 0; i < n; i++)
-    {
-        Vector xg = xn.Copy();
-        xg[i] = xg[i] + delta;
-        gr[i] = (func(xg) - fn) / delta;
-
-    }
-
-    double z = func(answer);
-}*/
+                Vector xg = xn.Copy();
+                xg[i] = xg[i] + delta;
+                double funcdiffxg = func(xg) + ogran(xg) * lyzmd;
+                y[i] = (func(xn) - func(xg)) / delta+lyzmd;
+            }
+            y[n] = ogran(xn);
+            return new Vector(n);
+        }
         private static double[] ShellSort(double[] list) 
         {
             //расстояние между элементами, которые сравниваются
