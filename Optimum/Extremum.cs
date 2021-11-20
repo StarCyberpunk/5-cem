@@ -6,6 +6,7 @@ namespace Optimum
 {
     delegate double Fun(double x);
     delegate double Fun2(Vector x);
+    delegate Vector Fun3(Vector x);
     class Extremum
     {
         public static double Shagoviy(double xn, double h, double eps, Fun fun)
@@ -388,24 +389,107 @@ namespace Optimum
 
 
         }
-
-        public static Vector Lagrang(Vector xn,Fun2 func,double eps,Fun2 ogran)
+        static Random rnd = new Random();
+       public static Vector ozuMethod(Vector x,double eps,double h,Vector fn,Vector fv,Vector tipf,Fun3 func)
         {
-            double delta = eps * 0.5;
-            double lyzmd = 1;
-            int n = xn.Size;
-            Vector y = new Vector(n+1);
-            double funcdiff = func(xn) + ogran(xn) * lyzmd;
-                for (int i = 0; i < n; i++)
+            int k = 0; 
+            int n = x.Size;
+            int m = 3 * n;
+            int pmin = int.MinValue;
+            Matrix xpTemp = new Matrix(m, n);
+            Vector xp = new Vector(m);
+            Vector fp = new Vector(m);
+            double ft = fNorm(xp, fn, fv, tipf, func);
+            double fpmin = double.MaxValue;
+            double temp,len;
+            do
             {
+                k++;
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        temp = rnd.NextDouble() - 0.5;
+                        xpTemp[i, j] = temp;
+                    }
+                    len = 0;
+                    for (int j = 0; j < n; j++)
+                        len += (xpTemp[i, j] - x[j] * (xpTemp[i, j] - x[j]));
+                    len = Math.Sqrt(len);
+                    for (int j = 0; j < n; j++)
+                        xpTemp[i, j] = x[j] + h * (xpTemp[i, j] - x[j]) / len;
+                }
+                for (int i = 0; i < m; i++)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        xp[j] = xpTemp[i, j];
+                    }
+                    fp[i] = fNorm(xp,fn,fv,tipf,func);
+                    if (fp[i] < fpmin)
+                    {
+                        fpmin = fp[i];
+                        pmin = i;
+                    }
 
-                Vector xg = xn.Copy();
-                xg[i] = xg[i] + delta;
-                double funcdiffxg = func(xg) + ogran(xg) * lyzmd;
-                y[i] = (func(xn) - func(xg)) / delta+lyzmd;
+                }
+                if (fpmin < ft)
+                {
+                    for (int j = 0; j < n; j++)
+                        x[j] = xpTemp[pmin, j];
+                    ft = fpmin;
+                    h = h * 1.2;
+
+                }
+                else h = h / 2.0;
+            } while (h > eps);
+            return x;
+        }
+        private static double fNorm(Vector x,Vector fn,Vector fv,Vector tipf,Fun3 func)
+        {
+            Vector fx = func(x);
+            int sizeCriteria = fx.Size;
+            Vector g = new Vector(sizeCriteria);
+            int maxg =0;
+            double g1;
+            double g2;
+            for(int i = 0; i < sizeCriteria; i++)
+            {
+                if (tipf[i] == 1)
+                {
+                    if (fn[i] > 0)
+                        g[i] = 2 - fx[i] / fn[i];
+                    if (fn[i] == 0)
+                        g[i] = -fx[i] / fn[i] + 1;
+                    if (fn[i] < 0)
+                        g[i] = fx[i] / fn[i];
+                }
+                if (tipf[i] == 2)
+                {
+
+                    if (fn[i] > 0)
+                        g[i] = fx[i] / fv[i];
+                    if (fn[i] == 0)
+                        g[i] = fx[i] / fv[i] + 1;
+                    if (fn[i] < 0)
+                        g[i] =2- fx[i] / fv[i];
+                }
+                if (tipf[i] == 3)
+                {
+
+                    g1 = (fx[i] - fn[i]) / (fv[i] - fn[i]);
+                    g2 = (fv[i] - fx[i]) / (fv[i] - fn[i]);
+                    if (g1 > g2)
+                        g[i] = g1;
+                    else
+                        g[i] = g2;
+                }
+                if (g[i] > g[maxg])
+                    maxg = i;
             }
-            y[n] = ogran(xn);
-            return new Vector(n);
+            return g[maxg];
+
+
         }
         private static double[] ShellSort(double[] list) 
         {
