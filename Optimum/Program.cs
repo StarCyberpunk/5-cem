@@ -28,10 +28,33 @@ namespace Optimum
             xnnn[0] = 1;xnnn[1] = 0;
             xnn[2] = new Vector(xnnn);
 
-
+             
             Console.WriteLine("MSP {0}", Extremum.MSP(xn, 20, 0.1, 0.001, x => x[0] * x[0] + x[1] * x[0] + 2 * x[1] * x[1]+x[0]));
             Console.WriteLine("Метод деформированных многоугольноков {0}", Extremum.NelderaMida(xnn, 0.001, x => x[0] * x[0] + x[1] * x[0] + x[1]* x[1] -9* x[1] -6*x[0]));
+            Vector ffff(Vector x)
+            {
+                Vector fc = new Vector(3);
+                fc[0] = x[0] * x[0]+x[1]*x[0]+x[1]*x[1];
+                fc[1] = x[0] * x[0]+x[1];
+                fc[2] = x[0] * x[1]*x[1]*2;
+                return fc;
+            }
+
+            xn[0] = 1;
+            xn[1] = 3;
             
+            Vector tipof = new Vector(3);
+            tipof[0] = 3;tipof[1] = 2;tipof[2] = 1;
+            Vector fv = new Vector(3);
+            fv[0] = 3;fv[1] = 2;fv[2] = 10;
+            Vector fn = new Vector(3);
+            fn[0] = 1;fn[1] = -10;fn[2] = 1;
+            Vector ai = new Vector(2);
+            ai[0] = -2;ai[1] = 2;
+            Vector bi = new Vector(2);
+            bi[0] = -2;bi[1] = 2;
+
+            Console.WriteLine("Метод ОЗУ {0}", Extremum.ozuMethod(xn, 0.0001, 0.1, fv, fn, tipof, ffff));
 
         }
     }

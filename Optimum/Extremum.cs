@@ -397,9 +397,9 @@ namespace Optimum
             int m = 3 * n;
             int pmin = int.MinValue;
             Matrix xpTemp = new Matrix(m, n);
-            Vector xp = new Vector(m);
+            Vector xp = new Vector(n);
             Vector fp = new Vector(m);
-            double ft = fNorm(xp, fn, fv, tipf, func);
+            double ft = fNorm(x, fn, fv, tipf, func);
             double fpmin = double.MaxValue;
             double temp,len;
             do
@@ -455,7 +455,8 @@ namespace Optimum
             double g2;
             for(int i = 0; i < sizeCriteria; i++)
             {
-                if (tipf[i] == 1)
+                int t = (int)tipf[i];
+                if (t == 1)//niz
                 {
                     if (fn[i] > 0)
                         g[i] = 2 - fx[i] / fn[i];
@@ -464,7 +465,7 @@ namespace Optimum
                     if (fn[i] < 0)
                         g[i] = fx[i] / fn[i];
                 }
-                if (tipf[i] == 2)
+                if (t == 2)//vverx
                 {
 
                     if (fn[i] > 0)
@@ -474,7 +475,7 @@ namespace Optimum
                     if (fn[i] < 0)
                         g[i] =2- fx[i] / fv[i];
                 }
-                if (tipf[i] == 3)
+                if (t == 3)//2-x storon
                 {
 
                     g1 = (fx[i] - fn[i]) / (fv[i] - fn[i]);
@@ -484,7 +485,7 @@ namespace Optimum
                     else
                         g[i] = g2;
                 }
-                if (g[i] > g[maxg])
+                if (g[i] >= g[maxg])
                     maxg = i;
             }
             return g[maxg];

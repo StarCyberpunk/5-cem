@@ -26,6 +26,7 @@ namespace Optimum
                 vector[i] = m[i];
 
         }
+        
 
         public Vector(Vector m)
         {
