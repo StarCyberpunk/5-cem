@@ -9,23 +9,24 @@ namespace Optimum
     delegate Vector Fun3(Vector x);
     class Extremum
     {
+        #region первый семестр
         public static double Shagoviy(double xn, double h, double eps, Fun fun)
         {
             int k = 1;
-            double fn = fun(xn);
-            double xs = xn + h;
-            double fs = fun(xs);
+            double fn = fun(xn);//вычисление функции начального значения
+            double xs = xn + h;//прибавление приближения
+            double fs = fun(xs);//вычисление функции нового х
             while (Math.Abs(h) > eps)
             {
                 if (fs > fn)
                 {
-                    h = -h / 2;
+                    h = -h / 2;//шаг не в ту сторону
 
                 }
                 else
                 {
 
-                    h = h * 1.2;
+                    h = h * 1.2;//шаг в правильную сторону
 
                 }
                 xn = xs;
@@ -124,12 +125,12 @@ namespace Optimum
                 gr = new Vector(n);
                 for (int i = 0; i < n; i++)
                 {
-                    
+
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
                 }
-                dx= -h * gr;
+                dx = -h * gr;
                 xs = xn - h * gr;
                 fs = func(xs);
                 if (fs > fn)
@@ -150,7 +151,7 @@ namespace Optimum
             Console.WriteLine(k);
             return xs;
 
-    }
+        }
         public static Vector ModifiyGrad(Vector xn, double eps, Fun2 func)
         {
             Vector xnach = new Vector(xn);
@@ -163,22 +164,24 @@ namespace Optimum
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
             double h = 0.1;
-           
+
             do
             {
+                //формирование вектора градиента
                 gr = new Vector(n);
                 for (int i = 0; i < n; i++)
                 {
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
-                   
+
                 }
-                    h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
-                    dx = -h * gr;
-                    xs = xn - h * gr;
-                    fs = func(xs);
-                
+
+                h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));//нахождение оптимального шага путем нахождения экстремума 1 переменной
+                dx = -h * gr;
+                xs = xn - h * gr;//вычистывание нового х
+                fs = func(xs);//новое значение функции
+
                 dx = -h * gr;
                 xn = xs;
                 fn = fs;
@@ -190,7 +193,7 @@ namespace Optimum
             return xs;
 
 
-        
+
         }
 
         public static Vector GradSoprIspra(Vector xn, double eps, Fun2 func)
@@ -200,13 +203,13 @@ namespace Optimum
             int n = xn.Size;
             double fn = func(xn);
             Vector xs = new Vector(xn);
-            Vector gr=new Vector(n);
+            Vector gr = new Vector(n);
             Vector dx;
             double delta = 0.5 * eps;
             double fs = fn + func(xs);
             double h = 0.01;
-            
-            Vector grold=new Vector(n);
+
+            Vector grold = new Vector(n);//последнее направление
             double kof;
 
             for (int i = 0; i < n; i++)
@@ -214,11 +217,11 @@ namespace Optimum
                 Vector xg = xn.Copy();
                 xg[i] = xg[i] + delta;
                 gr[i] = (func(xg) - fn) / delta;
-                
+
             }
 
 
-            h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
+            h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));//Вычисление опримального шага с помощью эксремума
 
             dx = -h * gr;
             xs = xn - h * gr;
@@ -227,24 +230,24 @@ namespace Optimum
             xn = xs;
             fn = fs;
             k++;
-
+            //выше высчиталось первое направление для определение следующего
             do
             {
-                
+
                 for (int i = 0; i < n; i++)
                 {
                     Vector xg = xn.Copy();
                     xg[i] = xg[i] + delta;
                     gr[i] = (func(xg) - fn) / delta;
-                    
+
                 }
 
 
                 h = Shagoviy(h, 0.5, eps, he => func(xn - he * gr));
-                //настройка коэфов
-                
-                kof = gr.NormaE()*gr.NormaE()/(grold.NormaE()*grold.NormaE());
-                gr = gr + kof * grold;
+                //опредление оптимального шага
+
+                kof = gr.NormaE() * gr.NormaE() / (grold.NormaE() * grold.NormaE());//высчитывание коэффицента для определения значимости предыдушего направления
+                gr = gr + kof * grold;//высчитываение нового направление с учетом прошлого
                 dx = -h * gr;
                 xs = xn - h * gr;
                 fs = func(xs);
@@ -260,13 +263,13 @@ namespace Optimum
 
 
         }
-        public static Vector MSP(Vector xn,int n,double h, double eps,Fun2 func)
+        public static Vector MSP(Vector xn, int n, double h, double eps, Fun2 func)
         {
             Random rnd = new Random();
             int ni = xn.Size;
-            Vector xs=new Vector(ni);
-            Vector[] xpr = new Vector[3*n];
-            Vector fxp = new Vector(3*n);
+            Vector xs = new Vector(ni);
+            Vector[] xpr = new Vector[3 * n];
+            Vector fxp = new Vector(3 * n);
             double k = 0;
 
             do
@@ -274,18 +277,18 @@ namespace Optimum
                 xs = xn - EdRandR(2, rnd);
                 double fn = func(xn);
                 double fss = func(xs);
-                
-                
-                for (int i = 0; i<3*n;i++) {
+
+
+                for (int i = 0; i < 3 * n; i++) {
                     Vector rnvec = EdRandR(2, rnd);
-                    Vector po= xn - h * rnvec;
+                    Vector po = xn - h * rnvec;
                     xpr[i] = po;
                     double fs = func(xpr[i]);
                     fxp[i] = fs;
                     if (fss > fs) { fss = fs; xs = xpr[i]; }
-                    
+
                 }
-                
+
                 if (fss < fn)
                 {
                     xn = xs;
@@ -305,24 +308,25 @@ namespace Optimum
         {
             int n = xn.Length;
             double m = n + 1;
-           
-            
+
+
             Vector xotr = new Vector(xn[0].Size);
             double cps = 1.0 / (n - 1.0);
-           
+
             double k = 0;
             double eeeps = 10;
             double[] fmas = new double[n];
-            
+
             do
             {
-                Vector xc = new Vector(xn[0].Size);
+                Vector xc = new Vector(xn[0].Size);//нахождение среднего 
                 double kof = 1;
                 for (int i = 0; i < n; i++)
                 {
                     fmas[i] = func(xn[i]);
                 }
-                fmas = ShellSort(fmas);
+                fmas = ShellSort(fmas);//Определение максимальных и минимальных значений
+                //Высчитывание среднего значения
                 for (int i = 0; i < n; i++)
                 {
                     if (func(xn[i]) == fmas[n - 1]) { }
@@ -331,18 +335,19 @@ namespace Optimum
                         xc += xn[i] * cps;
                     }
                 }
-                 xotr = xc + kof * (xc - FindXN(xn, fmas[n - 1], func));
+                //определение х отраженного. Максимальный ищется из функции FindXN
+                xotr = xc + kof * (xc - FindXN(xn, fmas[n - 1], func));
                 double fotr = func(xotr);
-
+                //правильный шаг,растяжение с увлечением шага
                 if (fotr < fmas[0])
                 {
-                   double newfotr = fotr;
-                    
-                    eeeps =Math.Abs( func(FindXN(xn, fmas[n - 1], func)) - func(xotr));
+                    double newfotr = fotr;
+
+                    eeeps = Math.Abs(func(FindXN(xn, fmas[n - 1], func)) - func(xotr));
                     if (fotr < fmas[1])
                     {
                         kof = kof * 2;
-                        xotr = xc + kof * (xotr-xc );
+                        xotr = xc + kof * (xotr - xc);
                     }
                     for (int i = 0; i < n; i++)
                     {
@@ -352,10 +357,11 @@ namespace Optimum
                         }
                     }
                 }
+                //Расстяжение не полное
                 else if (fotr > fmas[0])
                 {
                     kof = kof / 2;
-                    xotr = xc + kof * ( FindXN(xn, fmas[n - 1], func)-xc);
+                    xotr = xc + kof * (FindXN(xn, fmas[n - 1], func) - xc);
                     eeeps = Math.Abs(-func(FindXN(xn, fmas[n - 1], func)) + func(xotr));
                     for (int i = 0; i < n; i++)
                     {
@@ -366,6 +372,7 @@ namespace Optimum
                     }
 
                 }
+                //Выполнение сжатия
                 else
                 {
                     for (int i = 0; i < n; i++)
@@ -381,7 +388,7 @@ namespace Optimum
                 }
                 k++;
 
-            } while (eps< eeeps);// https://habr.com/ru/post/332092/
+            } while (eps < eeeps);// https://habr.com/ru/post/332092/
             Console.WriteLine(k);
             return FindXN(xn, fmas[0], func);
 
@@ -390,29 +397,31 @@ namespace Optimum
 
         }
         static Random rnd = new Random();
-       public static Vector ozuMethod(Vector x,double eps,double h,Vector fn,Vector fv,Vector tipf,Fun3 func)
+        public static Vector ozuMethod(Vector x, double eps, double h, Vector fn, Vector fv, Vector tipf, Fun3 func)
         {
-            int k = 0; 
+            int k = 0;
             int n = x.Size;
             int m = 3 * n;
             int pmin = int.MinValue;
             Matrix xpTemp = new Matrix(m, n);
             Vector xp = new Vector(n);
             Vector fp = new Vector(m);
-            double ft = fNorm(x, fn, fv, tipf, func);
+            double ft = fNorm(x, fn, fv, tipf, func);//функция текущая вычисляется по типу огранижений
             double fpmin = double.MaxValue;
-            double temp,len;
+            double temp, len;
             do
             {
                 k++;
                 for (int i = 0; i < m; i++)
                 {
+                    //Вычисление нового рандомного значения
                     for (int j = 0; j < n; j++)
                     {
                         temp = rnd.NextDouble() - 0.5;
                         xpTemp[i, j] = temp;
                     }
                     len = 0;
+                    //Нахождение длинны,и временного значения xp
                     for (int j = 0; j < n; j++)
                         len += (xpTemp[i, j] - x[j] * (xpTemp[i, j] - x[j]));
                     len = Math.Sqrt(len);
@@ -421,11 +430,12 @@ namespace Optimum
                 }
                 for (int i = 0; i < m; i++)
                 {
+                    //Присваниевение xp временные значения
                     for (int j = 0; j < n; j++)
                     {
                         xp[j] = xpTemp[i, j];
                     }
-                    fp[i] = fNorm(xp,fn,fv,tipf,func);
+                    fp[i] = fNorm(xp, fn, fv, tipf, func);//вычисление новых значений функции
                     if (fp[i] < fpmin)
                     {
                         fpmin = fp[i];
@@ -433,6 +443,7 @@ namespace Optimum
                     }
 
                 }
+                //правильный шаг
                 if (fpmin < ft)
                 {
                     for (int j = 0; j < n; j++)
@@ -441,10 +452,179 @@ namespace Optimum
                     h = h * 1.2;
 
                 }
-                else h = h / 2.0;
+                else h = h / 2.0;//неправльный шаг
             } while (h > eps);
             return x;
         }
+        #endregion
+        #region Второй семестр
+        public static Matrix Init(Vector a, Vector b, Matrix c)
+        {
+            //a количество товара у поставщиков
+            //b количество товара у потребителя
+            //с стоимость перевозки ij
+
+            if (!Equaleble(a, b, c))
+            {
+                Console.WriteLine("Error");
+                return new Matrix(1, 1);
+            }
+            Matrix x = new Matrix(a.Size, b.Size);
+            double s = 0;
+
+            List<double[]> min_znach = FindMinInMatrix(c.Copy());
+            foreach (double[] kord in min_znach)
+            {
+                if (AllEmpty(a)) break;
+                int i = (int)kord[0];
+                int j = (int)kord[1];
+                if (a[i] == 0) continue;
+                if (b[j] == 0) continue;
+                if (a[i] > b[j])
+                {
+                    x[i, j] = b[j];
+                    s += b[j] * c[i, j];
+                    a[i] -= b[j];
+                    b[j] = 0;
+                }
+                else if (a[i] < b[j])
+                {
+                    x[i, j] = a[i];
+                    b[j] -= a[i];
+                    s += a[i] * c[i, j];
+                    a[i] = 0;
+                }
+                else
+                {
+                    x[i, j] = a[i];
+                    s += b[j] * c[i, j];
+                    a[i] = 0;
+                    b[j] = 0;
+                }
+            }
+            Matrix delta = new Matrix(a.Size,b.Size);
+            for(int i = 0; i < a.Size; i++)
+            {
+                for(int j = 0; j < b.Size; j++)
+                {
+                    
+                }
+            }
+            Console.WriteLine("Сумма: {0} ", s);
+            return x;
+        }
+        public void BazePlan(Vector a,Vector b, Matrix c)
+        {
+            Matrix First = Init(a, b, c);
+            double[] us = new double[a.Size];
+            double[] vs = new double[b.Size];
+            List<double[]> ews = FindNotNullMat(First);
+            foreach(double[] kor in ews)
+            {
+                int i = (int)kor[0];
+                int j = (int)kor[1];
+                
+            }
+            
+            
+           
+                
+           
+            
+        } 
+    
+        
+        private static List<double[]> FindMinInMatrix(Matrix m)
+        { 
+            int sizeMas = m.GetCountRows() * m.GetCountColumns();
+            
+            List<double[]> ress = new List<double[]>();
+            double min = 100;
+            int k = 0;
+            while (k < sizeMas)
+            {
+                double[] res = new double[2];
+                min = 100;
+                for (int i = 0; i < m.GetCountRows(); i++)
+                {
+                    for (int j = 0; j < m.GetCountColumns(); j++)
+                    {
+                        if (min > m[i, j])
+                        {
+                            min = m[i, j];
+                            res[0] = i;
+                            res[1] = j;
+                        }
+                    }
+                }
+                
+                ress.Add(res);
+                 m[(int)res[0], (int)res[1]] = 100;
+                k++;
+                        
+                    
+                
+            }
+            return ress;
+        }
+        private static List<double[]> FindNotNullMat(Matrix m)
+        {
+            int sizeMas = m.GetCountRows() * m.GetCountColumns();
+
+            List<double[]> ress = new List<double[]>();
+            
+            
+              double[] res = new double[2];
+
+            for (int i = 0; i < m.GetCountRows(); i++)
+            {
+                for (int j = 0; j < m.GetCountColumns(); j++)
+                {
+                    if (0 < m[i, j])
+                    {
+                        res[0] = i;
+                        res[1] = j;
+                        ress.Add(res);
+                    }
+                }
+            }
+            return ress;
+        }
+        private static bool AllEmpty(Vector a)
+        {
+            bool yeah=true;
+            for(int i = 0; i < a.Size; i++)
+            {
+                if (a[i] != 0)
+                {
+                    yeah = false;
+                }
+            }
+            return yeah;
+        }
+        private static bool Equaleble(Vector a,Vector b,Matrix c)
+        {
+            double suma = 0;
+            double sumb = 0;
+            bool res = true;
+            for (int i=0; i < a.Size; i++)
+            {
+                suma += a[i];
+            }
+            for (int i = 0; i < b.Size; i++)
+            {
+                sumb += b[i];
+            }
+            if (suma != sumb) res = false;
+            if((a.Size!=c.GetCountRows())&& (b.Size != c.GetCountColumns())){
+                Console.WriteLine("Неправильно заполнена матрица");
+                res = false;
+            }
+            return res;
+        }
+
+        #endregion
+        #region Первый семестр Приватные методы
         private static double fNorm(Vector x,Vector fn,Vector fv,Vector tipf,Fun3 func)
         {
             Vector fx = func(x);
@@ -552,6 +732,7 @@ namespace Optimum
             Vector ee = new Vector(e);
             return ee;
         }
+        #endregion
 
-    } 
+    }
 }

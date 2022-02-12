@@ -8,6 +8,7 @@ namespace Optimum
     {
         static void Main(string[] args)
         {
+            #region First sem
             /*Console.WriteLine("Ответ шаговый {0}",Extremum.Shagoviy(1,0.5,0.0001,x=>(x*x/2)+(8/(x*x))));
             Console.WriteLine("Золотое сечение {0}",Extremum.GoldSechenie(1, 5, 0.0001, x => (x * x / 2) + (8 / (x * x))));
             Console.WriteLine("Квад Апрокси {0}", Extremum.MetodKvadAproksim(-5,0,5, 0.0001, x => x * x+5*x));
@@ -16,7 +17,7 @@ namespace Optimum
             
             Console.WriteLine("Градиент {0}", Extremum.Grad(xn,0.001, x => x[0]*x[0]+x[1]*x[0]+2*x[1]*x[1],0.1));
 */
-            Vector xn = new Vector(2);
+            /*Vector xn = new Vector(2);
             xn[0] = 0; xn[1] = 1;
             Console.WriteLine("Градиент Модификация {0}", Extremum.ModifiyGrad(xn, 0.001, x => x[0] * x[0] + x[1] * x[0] + 2* x[1] * x[1]+x[0]));
             Console.WriteLine("Градиент Модификация ++ {0}", Extremum.GradSoprIspra(xn, 0.001, x => x[0] * x[0] + x[1] * x[0] + 2 * x[1] * x[1] +x[0]));
@@ -54,8 +55,13 @@ namespace Optimum
             Vector bi = new Vector(2);
             bi[0] = -2;bi[1] = 2;
 
-            Console.WriteLine("Метод ОЗУ {0}", Extremum.ozuMethod(xn, 0.0001, 0.1, fv, fn, tipof, ffff));
-
+            Console.WriteLine("Метод ОЗУ {0}", Extremum.ozuMethod(xn, 0.0001, 0.1, fv, fn, tipof, ffff));*/
+            #endregion
+            Vector postav = new Vector(new double[] { 30, 40, 20 });
+            Vector poluch = new Vector(new double[] { 20, 25, 30, 15 });
+            Matrix stoimost = new Matrix(new double[,] { { 5, 3, 2, 4 }, { 6, 1, 7, 3 }, { 2, 5, 11, 8 } });
+            Matrix res = Extremum.Init(postav, poluch, stoimost);
+            Console.ReadKey();
         }
     }
 }
