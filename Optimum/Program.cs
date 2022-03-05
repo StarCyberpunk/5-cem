@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 
 namespace Optimum
@@ -61,6 +62,49 @@ namespace Optimum
             Vector poluch = new Vector(new double[] { 20, 25, 30, 15 });
             Matrix stoimost = new Matrix(new double[,] { { 5, 3, 2, 4 }, { 6, 1, 7, 3 }, { 2, 5, 11, 8 } });
             Matrix res = Extremum.Init(postav, poluch, stoimost);
+
+
+
+            /*Graph graph = new Graph();
+            Vertex v1 = new Vertex("A", 2);
+            Vertex v2 = new Vertex("B", 3);
+            Vertex v3 = new Vertex("C", 5);
+            Vertex v4 = new Vertex("D", 1);
+            Vertex v5 = new Vertex("E", 9);
+            Vertex v6 = new Vertex("F", 4);
+            Vertex v7 = new Vertex("G", 7);
+
+            graph.AddVertex(v1);
+            graph.AddVertex(v2);
+            graph.AddVertex(v3);
+            graph.AddVertex(v4);
+            graph.AddVertex(v5);
+            graph.AddVertex(v6);
+            graph.AddVertex(v7);
+
+
+            graph.AddEdge(v1, v2);
+            graph.AddEdge(v1, v3);
+            graph.AddEdge(v3, v4);
+            graph.AddEdge(v2, v5);
+            graph.AddEdge(v2, v6);
+            graph.AddEdge(v6, v5);
+            graph.AddEdge(v5, v6);
+            graph.AddEdge(v4, v7);
+            graph.AddEdge(v6, v7);
+
+            graph.ViewGraph();
+
+            graph.BFS(v1);
+            Console.WriteLine("\nTest BFS --- Start");
+            graph.ViewBFS(v1);
+            //TODO
+            Console.WriteLine("\nTest DFS --- Start");
+            graph.DFS(v1);
+
+            graph.PrintPath(v1, v7);
+
+            Console.WriteLine("Test DFS --- End\n");*/
             Console.ReadKey();
         }
     }

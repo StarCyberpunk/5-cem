@@ -503,6 +503,15 @@ namespace Optimum
                 }
             }
             Matrix delta = new Matrix(a.Size,b.Size);
+            List<double[]> notnull = FindNotNullMat(x);
+            Vector u = new Vector(a.Size);
+            Vector v = new Vector(b.Size);
+            u[0] = 0;
+            v[0] = c[0, 0] - u[0];
+            v[1] = c[0, 1] - u[0];
+            u[1] = c[1, 1] - v[1];
+            v[2] = c[1, 2] - u[1];
+
             for(int i = 0; i < a.Size; i++)
             {
                 for(int j = 0; j < b.Size; j++)
