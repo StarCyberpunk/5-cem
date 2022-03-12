@@ -504,45 +504,57 @@ namespace Optimum
             }
             Matrix delta = new Matrix(a.Size,b.Size);
             List<double[]> notnull = FindNotNullMat(x);
-            Vector u = new Vector(a.Size);
-            Vector v = new Vector(b.Size);
-            u[0] = 0;
-            v[0] = c[0, 0] - u[0];
-            v[1] = c[0, 1] - u[0];
-            u[1] = c[1, 1] - v[1];
-            v[2] = c[1, 2] - u[1];
-
-            for(int i = 0; i < a.Size; i++)
-            {
-                for(int j = 0; j < b.Size; j++)
-                {
-                    
-                }
-            }
+            
+            
             Console.WriteLine("Сумма: {0} ", s);
             return x;
         }
-        public void BazePlan(Vector a,Vector b, Matrix c)
+        public static void BlizhSosed(Graph gr,Vertex start)
         {
-            Matrix First = Init(a, b, c);
-            double[] us = new double[a.Size];
-            double[] vs = new double[b.Size];
-            List<double[]> ews = FindNotNullMat(First);
-            foreach(double[] kor in ews)
+            List<Vertex> have = new List<Vertex>();
+            foreach (var v in gr.allvertexs)
             {
-                int i = (int)kor[0];
-                int j = (int)kor[1];
-                
+                v.Weight = Double.MaxValue;
+                v.prev = null;
+                v.visited = false;
+                if (v != start) { 
+                have.Add(v);
             }
+            }
+            start.Weight = 0;
+            start.visited = true;
+            start.prev = null;
             
-            
-           
+            while (have.Count > 0)
+            {
+                int minedge = 100;
+                Edge ee=gr.alledges[0];
+
+                Vertex u = que.Dequeue();
+                foreach (Edge e in u.Edges)
+                {
+                    
+                    Vertex rr = e.End;
+                    if ((rr.visited == false)&&(minedge>e.Length))
+                    {
+                        ee = e;
+                    }
+
+                }
+                Vertex r = ee.End;
+                 r.visited = true;
+                 r.Weight = u.Weight + 1;
+                 r.prev = u;
+                 que.Enqueue(r);
+                 
+
                 
-           
-            
-        } 
+                u.visited = true;
+            }
+        }
     
         
+
         private static List<double[]> FindMinInMatrix(Matrix m)
         { 
             int sizeMas = m.GetCountRows() * m.GetCountColumns();
