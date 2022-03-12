@@ -511,44 +511,79 @@ namespace Optimum
         }
         public static void BlizhSosed(Graph gr,Vertex start)
         {
+            
             List<Vertex> have = new List<Vertex>();
+            int countVer = gr.allvertexs.Count;
             foreach (var v in gr.allvertexs)
             {
                 v.Weight = Double.MaxValue;
                 v.prev = null;
                 v.visited = false;
-                if (v != start) { 
-                have.Add(v);
-            }
+                
             }
             start.Weight = 0;
             start.visited = true;
             start.prev = null;
-            
-            while (have.Count > 0)
+            Vertex cur = start;
+            double minedge = Double.MinValue;
+            Edge ee = gr.alledges[0];
+            have.Add(start);
+            Vertex u = cur;
+            foreach (Edge e in u.Edges)
             {
-                int minedge = 100;
-                Edge ee=gr.alledges[0];
 
-                Vertex u = que.Dequeue();
-                foreach (Edge e in u.Edges)
+                Vertex rr = e.End;
+                if ((rr.visited == false) && (minedge > e.Length))
                 {
-                    
-                    Vertex rr = e.End;
-                    if ((rr.visited == false)&&(minedge>e.Length))
-                    {
-                        ee = e;
-                    }
-
+                    ee = e;
+                    minedge = e.Length;
                 }
-                Vertex r = ee.End;
-                 r.visited = true;
-                 r.Weight = u.Weight + 1;
-                 r.prev = u;
-                 que.Enqueue(r);
-                 
 
-                
+            }
+            Vertex r = ee.End;
+            r.visited = true;
+            r.Weight = u.Weight + 1;
+            r.prev = u;
+            cur = r;
+            have.Add(r);
+             minedge = Double.MaxValue;
+             cur = null;
+            foreach (Vertex v in gr.allvertexs)
+            {
+                double sum = 0;
+                if (v.visited == true) continue;
+                foreach(Edge e in v.Edges)
+                { 
+                        if (e.End.visited==true|| e.First.visited == true)
+                    {
+                        sum += e.Length;
+                    }
+                    
+                }
+                if (minedge > sum) { minedge = sum; cur = v; }
+            }
+            if (cur != null) have.Add(cur);
+            while (have.Count !=countVer)
+            {
+                foreach (Vertex v in gr.allvertexs)
+                {
+                    double sum = 0;
+                    if (v.visited == true) continue;
+                    foreach (Edge e in v.Edges)
+                    {
+                        if (e.End.visited == true || e.First.visited == true)
+                        {
+                            sum += e.Length;
+                        }
+                        
+                    }
+                    sum-=v.
+                    if (minedge > sum) { minedge = sum; cur = v; }
+                }
+                if (cur != null) have.Add(cur);
+
+
+
                 u.visited = true;
             }
         }
