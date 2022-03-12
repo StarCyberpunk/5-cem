@@ -42,6 +42,14 @@ namespace Optimum
             }
             else return;
         }
+        public Edge FindEdge(Vertex start, Vertex end)
+        {
+            foreach(Edge e in alledges)
+            {
+                if ((start == e.First && end == e.End) || (start == e.End && end == e.First)) return e;
+            }
+            return null;
+        }
         public void ViewGraph()
         {
             for (int i = 0; i < allvertexs.Count; i++)
