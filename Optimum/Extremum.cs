@@ -513,6 +513,7 @@ namespace Optimum
         {
             
             List<Vertex> have = new List<Vertex>();
+            List<Edge> hEdge = new List<Edge>();
             int countVer = gr.allvertexs.Count;
             foreach (var v in gr.allvertexs)
             {
@@ -524,12 +525,13 @@ namespace Optimum
             start.Weight = 0;
             start.visited = true;
             start.prev = null;
+
             Vertex cur = start;
             double minedge = Double.MinValue;
             Edge ee = gr.alledges[0];
             have.Add(start);
-            Vertex u = cur;
-            foreach (Edge e in u.Edges)
+            
+            foreach (Edge e in cur.Edges)
             {
 
                 Vertex rr = e.End;
@@ -542,8 +544,8 @@ namespace Optimum
             }
             Vertex r = ee.End;
             r.visited = true;
-            r.Weight = u.Weight + 1;
-            r.prev = u;
+            r.Weight = cur.Weight + 1;
+            r.prev = cur;
             cur = r;
             have.Add(r);
              minedge = Double.MaxValue;
@@ -577,18 +579,41 @@ namespace Optimum
                         }
                         
                     }
-                    sum-=v.
+                    sum -= v.Weight;
                     if (minedge > sum) { minedge = sum; cur = v; }
                 }
                 if (cur != null) have.Add(cur);
 
 
 
-                u.visited = true;
+                
             }
         }
-    
-        
+        public static void Bag(List<int[]> pi,int vob)
+        {
+            int n = pi.Count;
+            List<double> zi = new List<double>();
+            Matrix m = new Matrix(3, n);
+            for(int i = 0; i < n; i++)
+            {
+                m[0, i] = pi[i][0];
+                m[1, i] = pi[i][1];
+                m[2, i] = pi[i][0]/ pi[i][1];
+            }
+
+            for(int i = 0; i < n; i++)
+            {
+                zi.Add(m[2, i]);
+            }
+            zi.Sort();
+            foreach (double i in zi )
+            {
+
+            }
+           
+        }
+
+
 
         private static List<double[]> FindMinInMatrix(Matrix m)
         { 
