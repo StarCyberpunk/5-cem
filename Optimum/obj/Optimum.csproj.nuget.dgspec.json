@@ -1,25 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\notma\\Documents\\GitHub\\5-cem\\Optimum\\Optimum.csproj": {}
+    "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj": {}
   },
   "projects": {
-    "C:\\Users\\notma\\Documents\\GitHub\\5-cem\\Optimum\\Optimum.csproj": {
+    "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\notma\\Documents\\GitHub\\5-cem\\Optimum\\Optimum.csproj",
+        "projectUniqueName": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj",
         "projectName": "Optimum",
-        "projectPath": "C:\\Users\\notma\\Documents\\GitHub\\5-cem\\Optimum\\Optimum.csproj",
-        "packagesPath": "C:\\Users\\notma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\notma\\Documents\\GitHub\\5-cem\\Optimum\\obj\\",
+        "projectPath": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj",
+        "packagesPath": "C:\\Users\\БЛэкс\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\notma\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\БЛэкс\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

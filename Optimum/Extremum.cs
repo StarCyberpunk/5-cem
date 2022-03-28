@@ -517,7 +517,7 @@ namespace Optimum
             int countVer = gr.allvertexs.Count;
             foreach (var v in gr.allvertexs)
             {
-                v.Weight = Double.MaxValue;
+                
                 v.prev = null;
                 v.visited = false;
                 
@@ -544,7 +544,7 @@ namespace Optimum
             }
             Vertex r = ee.End;
             r.visited = true;
-            r.Weight = cur.Weight + 1;
+            
             r.prev = cur;
             cur = r;
             have.Add(r);
@@ -589,31 +589,78 @@ namespace Optimum
                 
             }
         }
-        public static void Bag(List<int[]> pi,int vob)
+        
+        public static int Bag(List<int[]> pi,int vob)
         {
             int n = pi.Count;
-            List<double> zi = new List<double>();
+            List<int> used = new List<int>();
             Matrix m = new Matrix(3, n);
+            int sum = 0;
+            int vi = 0;
             for(int i = 0; i < n; i++)
             {
                 m[0, i] = pi[i][0];
                 m[1, i] = pi[i][1];
-                m[2, i] = pi[i][0]/ pi[i][1];
+                if (pi[i][1] == 0) throw new Exception();
+                m[2, i] = (double)pi[i][0]/ pi[i][1];
             }
-
-            for(int i = 0; i < n; i++)
-            {
-                zi.Add(m[2, i]);
-            }
-            zi.Sort();
-            foreach (double i in zi )
+            while (vob >= vi)
             {
 
+                int i = FindMaxiesNext(m, used);
+                if (i == -1) break;
+                if (vi + (int)m[1, i] > vob) { used.Remove(i);  break; }
+                sum +=(int) m[0, i];
+                vi += (int)m[1, i];
             }
+            
+            foreach(int use in used)
+            {
+               
+                for (int i = 0; i < n; i++)
+                {
+                    
+                    if (!HaveList(i, used))
+                    {
+                        int vinew = vi;
+                        int sumnew = sum;
+                        vinew -= (int)m[1, use];
+                        sumnew -= (int)m[0, use];
+                        vinew += (int)m[1, i];
+                        sumnew += (int)m[0, i];
+                        if (vob >= vinew && sumnew > sum) { vi = vinew; sum = sumnew; }
+                    }
+
+                }
+            }
+            
+                return sum;
            
         }
+        private static int FindMaxiesNext(Matrix m,List<int> list)
+        {
+            int max = 0;
+            int add = -1;
+            for (int i = 0; i < m.GetCountColumns(); i++)
+            {
+                if (max < m[2, i] && !HaveList(i,list)) {//эквалис лучше
 
-
+                    max = (int)m[2, i];
+                    add = i;
+                }
+            }
+            if (add != -1) list.Add(add);
+            return add;
+        }
+        private static bool HaveList(int i,List<int> lsit )
+        {
+            /*if (lsit.Count == 0) return true;*/
+            foreach(int ii in lsit)
+            {
+                if (i == ii) return true;
+            }
+            return false;
+        }
 
         private static List<double[]> FindMinInMatrix(Matrix m)
         { 
