@@ -27,6 +27,11 @@ namespace Optimum
             Name = name;
             Weight = weight;
         }
+        public Vertex(string name)
+        {
+            Name = name;
+            Weight = 0;
+        }
         public Vertex()
         {
             Name = null;

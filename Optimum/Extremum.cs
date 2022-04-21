@@ -502,70 +502,70 @@ namespace Optimum
                     b[j] = 0;
                 }
             }
-            Matrix delta = new Matrix(a.Size,b.Size);
+            Matrix delta = new Matrix(a.Size, b.Size);
             List<double[]> notnull = FindNotNullMat(x);
-            
-            
+
+
             Console.WriteLine("Сумма: {0} ", s);
             return x;
         }
-        public static void BlizhSosed(Graph gr,Vertex start)
+        public static void BlizhSosed(Graph gr, Vertex start)
         {
-            
+
             List<Vertex> have = new List<Vertex>();
             List<Edge> hEdge = new List<Edge>();
             int countVer = gr.allvertexs.Count;
             foreach (var v in gr.allvertexs)
             {
-                
+
                 v.prev = null;
                 v.visited = false;
-                
+
             }
-            start.Weight = 0;
+            
             start.visited = true;
             start.prev = null;
 
             Vertex cur = start;
-            double minedge = Double.MinValue;
+            double maxedge = Double.MaxValue;
             Edge ee = gr.alledges[0];
             have.Add(start);
-            
+
             foreach (Edge e in cur.Edges)
             {
 
                 Vertex rr = e.End;
-                if ((rr.visited == false) && (minedge > e.Length))
+                if ((rr.visited == false) && (maxedge > e.Length))
                 {
                     ee = e;
-                    minedge = e.Length;
+                    maxedge = e.Length;
                 }
 
             }
             Vertex r = ee.End;
             r.visited = true;
-            
+
             r.prev = cur;
             cur = r;
             have.Add(r);
-             minedge = Double.MaxValue;
-             cur = null;
+            maxedge = Double.MaxValue;
+            cur = null;
             foreach (Vertex v in gr.allvertexs)
             {
                 double sum = 0;
                 if (v.visited == true) continue;
-                foreach(Edge e in v.Edges)
-                { 
-                        if (e.End.visited==true|| e.First.visited == true)
+                foreach (Edge e in v.Edges)
+                {
+                    if (e.End.visited == true || e.First.visited == true)
                     {
                         sum += e.Length;
                     }
-                    
+
                 }
-                if (minedge > sum) { minedge = sum; cur = v; }
+                if (maxedge > sum) { maxedge = sum; cur = v; }
             }
             if (cur != null) have.Add(cur);
-            while (have.Count !=countVer)
+            while (have.Count != countVer)
             {
                 foreach (Vertex v in gr.allvertexs)
                 {
@@ -577,49 +577,113 @@ namespace Optimum
                         {
                             sum += e.Length;
                         }
-                        
+
                     }
                     sum -= v.Weight;
-                    if (minedge > sum) { minedge = sum; cur = v; }
+                    if (maxedge > sum) { maxedge = sum; cur = v; }
                 }
                 if (cur != null) have.Add(cur);
 
 
 
-                
+
             }
         }
-        
-        public static int Bag(List<int[]> pi,int vob)
+        public static void Bliz2(Graph gr,Vertex start)
+        {
+            //init
+            foreach (var v in gr.allvertexs)
+            {
+                
+                v.prev = null;
+                v.visited = false;
+            }
+           
+            start.visited = true;
+            start.prev = null;
+           
+            Queue<Vertex> que = new Queue<Vertex>();
+            que.Enqueue(start);//включать De выключать
+            int k = 0;
+            while (que.Count > 0)
+            {
+                
+                double minegde = Double.MaxValue;
+                double sum = -1;
+                Vertex u = que.Dequeue();
+                Vertex next = null;
+                foreach (Edge e in u.Edges)
+                {
+                    Vertex r = e.End;
+                    
+                    if (r.visited == false&&e.Length<minegde&&e.First==u )
+                    {
+                        if (k >= 3)
+                        {
+                            sum = e.Length-;
+                        }
+                        minegde = e.Length;
+                        next = r;
+                    }
+                }
+                if (next != null)
+                {
+                    next.visited = true;
+                    next.prev = u;
+                    que.Enqueue(next);
+                }
+               
+                u.visited = true;
+                k++;
+            }
+            ViewBFS(gr, start);
+        }
+        public static void ViewBFS(Graph gr,Vertex start)
+        {
+            Console.WriteLine("All Path to {0}", start);
+            foreach (var v in gr.allvertexs)
+            {
+                if (v != start)
+                {
+                    var tmp = v;
+                    while (tmp != null)
+                    {
+                        Console.Write("{0} => ", tmp); tmp = tmp.prev;
+                    }
+                    Console.WriteLine();
+                }
+            }
+        }
+        public static int Bag(List<int[]> pi, int vob)
         {
             int n = pi.Count;
             List<int> used = new List<int>();
             Matrix m = new Matrix(3, n);
             int sum = 0;
             int vi = 0;
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 m[0, i] = pi[i][0];
                 m[1, i] = pi[i][1];
                 if (pi[i][1] == 0) throw new Exception();
-                m[2, i] = (double)pi[i][0]/ pi[i][1];
+                m[2, i] = (double)pi[i][0] / pi[i][1];
             }
             while (vob >= vi)
             {
 
                 int i = FindMaxiesNext(m, used);
                 if (i == -1) break;
-                if (vi + (int)m[1, i] > vob) { used.Remove(i);  break; }
-                sum +=(int) m[0, i];
+                if (vi + (int)m[1, i] > vob) { used.Remove(i); break; }
+                sum += (int)m[0, i];
                 vi += (int)m[1, i];
             }
-            
-            foreach(int use in used)
+
+            foreach (int use in used)
             {
-               
+
                 for (int i = 0; i < n; i++)
                 {
-                    
+
                     if (!HaveList(i, used))
                     {
                         int vinew = vi;
@@ -633,26 +697,26 @@ namespace Optimum
 
                 }
             }
-            
-                return sum;
-           
+
+            return sum;
+
         }
         public static void TeoriaIgrFirst(Matrix A)
         {
             int n = A.GetCountRows();
             int m = A.GetCountColumns();
-            double[] a =new double[2];
-            double[] b =new double[2];
+            double[] a = new double[2];
+            double[] b = new double[2];
             Vector k = new Vector(2);
             Vector k1 = new Vector(3);
             double[] z = new double[2];
             for (int i = 0; i < n; i++)
             {
-               
+
                 k1[i] = FindMinIG(A.GetRow(i))[0];
             }
             a = FindMaxIG(k1);
-            
+
             for (int i = 0; i < m; i++)
             {
                 k1[i] = FindMaxIG(A.GetColumn(i))[0];
@@ -660,10 +724,81 @@ namespace Optimum
 
             b = FindMinIG(k1);
 
-            if (a[0] == b[0]) Console.WriteLine(String.Format("Седловая с координатами {0},{1}",a[1],b[1]));
+            if (a[0] == b[0]) Console.WriteLine(String.Format("Седловая с координатами {0},{1}", a[1], b[1]));
 
         }
-        
+
+        public static double GameTheory(double[,] matrix)
+        {
+            if (matrix.GetLength(0) > 2)
+            {
+                throw new Exception("Рядов больше 2х");
+
+                return 0;
+            }
+
+            double min = double.MaxValue;
+
+            int iMin = 0;
+
+            int jMin = 0;
+
+            for (var i = 0; i < matrix.GetLength(1); i++)
+            {
+                var squareMatrix = new double[2, 2];
+
+                squareMatrix[0, 0] = matrix[0, i];
+
+                squareMatrix[1, 0] = matrix[1, i];
+
+                for (var j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (i != j && i < j)
+                    {
+                        squareMatrix[0, 1] = matrix[0, j];
+
+                        squareMatrix[1, 1] = matrix[1, j];
+
+                        var del = (squareMatrix[0, 0] + squareMatrix[1, 1] - squareMatrix[0, 1] - squareMatrix[1, 0]);
+
+                        if (del != 0)
+                        {
+                            var p1 = (squareMatrix[1, 1] - squareMatrix[1, 0]) / del;
+
+                            var p2 = 1 - p1;
+
+                            var q1 = (squareMatrix[1, 1] - squareMatrix[0, 1]) / del;
+
+                            var q2 = 1 - q1;
+
+                            if (p1 < 0 || p2 < 0 || q1 < 0 || q2 < 0)
+                            {
+                                continue;
+                            }
+
+                            var v = squareMatrix[0, 0] * p1 * q1 + squareMatrix[0, 1] * p1 * q2 + squareMatrix[1, 0] * p2 * q1 + squareMatrix[1, 1] * p2 * q2;
+
+                            if (v < min)
+                            {
+                                min = v;
+
+                                iMin = i;
+
+                                jMin = j;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine($"Столбец 1: {iMin + 1}");
+
+            Console.WriteLine($"Ряд 1: {jMin + 1}");
+
+            return min;
+        }
+
+
         private static double[] FindMinIG(Vector v)
         {
             double[] res = new double[2];
