@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Optimum
 {
-    
+
     class Program
     {
         static void Main(string[] args)
@@ -105,21 +105,25 @@ namespace Optimum
             graph.PrintPath(v1, v7);
 
             Console.WriteLine("Test DFS --- End\n");*/
-            List<int[]> pi = new List<int[]>();
-            int[] p1 = new int[2] { 5,2};
-            int[] p2 = new int[2] { 6, 3 };
-            int[] p3 = new int[2] { 3, 4 };
-            int[] p4 = new int[2] { 2, 1 };
-            int[] p5 = new int[2] { 8, 5 };
-            int[] p6 = new int[2] { 4, 2 };
-            pi.Add(p1);
-            pi.Add(p2);
-            pi.Add(p3);
-            pi.Add(p4);
-            pi.Add(p5);
-            pi.Add(p6);
-            int vob = 10;
-            Extremum.Bag(pi, vob);
+            /* List<int[]> pi = new List<int[]>();
+             int[] p1 = new int[2] { 5,2};
+             int[] p2 = new int[2] { 6, 3 };
+             int[] p3 = new int[2] { 3, 4 };
+             int[] p4 = new int[2] { 2, 1 };
+             int[] p5 = new int[2] { 8, 5 };
+             int[] p6 = new int[2] { 4, 2 };
+             pi.Add(p1);
+             pi.Add(p2);
+             pi.Add(p3);
+             pi.Add(p4);
+             pi.Add(p5);
+             pi.Add(p6);
+             int vob = 10;
+             Extremum.Bag(pi, vob);
+            */
+            double[,] n12 = new double[3, 3] { { 1, -3, 2 },{ 0, 5, 4 },{ 2, 3, 2 } };
+            Matrix m12 = new Matrix(n12);
+            Extremum.TeoriaIgrFirst(m12);
             Console.ReadKey();
         }
     }

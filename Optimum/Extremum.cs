@@ -637,6 +637,59 @@ namespace Optimum
                 return sum;
            
         }
+        public static void TeoriaIgrFirst(Matrix A)
+        {
+            int n = A.GetCountRows();
+            int m = A.GetCountColumns();
+            double[] a =new double[2];
+            double[] b =new double[2];
+            Vector k = new Vector(2);
+            Vector k1 = new Vector(3);
+            double[] z = new double[2];
+            for (int i = 0; i < n; i++)
+            {
+               
+                k1[i] = FindMinIG(A.GetRow(i))[0];
+            }
+            a = FindMaxIG(k1);
+            
+            for (int i = 0; i < m; i++)
+            {
+                k1[i] = FindMaxIG(A.GetColumn(i))[0];
+            }
+
+            b = FindMinIG(k1);
+
+            if (a[0] == b[0]) Console.WriteLine(String.Format("Седловая с координатами {0},{1}",a[1],b[1]));
+
+        }
+        
+        private static double[] FindMinIG(Vector v)
+        {
+            double[] res = new double[2];
+            double min = Double.MaxValue;
+            int j = -1;
+            for (int i = 0; i < v.size; i++)
+            {
+                if (v[i] < min) { min = v[i]; j = i; }
+            }
+            res[0] = min;
+            res[1] = j;
+            return res;
+        }
+        private static double[] FindMaxIG(Vector v)
+        {
+            double[] res = new double[2];
+            double max = Double.MinValue;
+            int j = -1;
+            for (int i = 0; i < v.size; i++)
+            {
+                if (v[i] > max) { max = v[i]; j = i; }
+            }
+            res[0] = max;
+            res[1] = j;
+            return res;
+        }
         private static int FindMaxiesNext(Matrix m,List<int> list)
         {
             int max = 0;
