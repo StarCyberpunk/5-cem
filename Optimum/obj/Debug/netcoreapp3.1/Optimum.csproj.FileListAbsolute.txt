@@ -38,3 +38,17 @@ C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optim
 C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache
 C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.AssemblyReference.cache
 C:\Users\БЛэкс\Desktop\5 cem\PK\5-cem\Optimum\obj\Debug\netcoreapp3.1\Optimum.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.exe
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.deps.json
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.json
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.runtimeconfig.dev.json
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\bin\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.AssemblyReference.cache
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfoInputs.cache
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.AssemblyInfo.cs
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.csproj.CoreCompileInputs.cache
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.dll
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.pdb
+C:\Users\notma\source\repos\5-cem-6-sem\Optimum\obj\Debug\netcoreapp3.1\Optimum.genruntimeconfig.cache

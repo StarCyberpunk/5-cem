@@ -509,244 +509,65 @@ namespace Optimum
             Console.WriteLine("Сумма: {0} ", s);
             return x;
         }
-        public static void BlizhSosed(Graph gr, Vertex start)
-        {
-
-            List<Vertex> have = new List<Vertex>();
-            List<Edge> hEdge = new List<Edge>();
-            int countVer = gr.allvertexs.Count;
-            foreach (var v in gr.allvertexs)
-            {
-
-                v.prev = null;
-                v.visited = false;
-
-            }
-            
-            start.visited = true;
-            start.prev = null;
-
-            Vertex cur = start;
-            double maxedge = Double.MaxValue;
-            Edge ee = gr.alledges[0];
-            have.Add(start);
-
-            foreach (Edge e in cur.Edges)
-            {
-
-                Vertex rr = e.End;
-                if ((rr.visited == false) && (maxedge > e.Length))
-                {
-                    ee = e;
-                    maxedge = e.Length;
-                }
-
-            }
-            Vertex r = ee.End;
-            r.visited = true;
-
-            r.prev = cur;
-            cur = r;
-            have.Add(r);
-            maxedge = Double.MaxValue;
-            cur = null;
-            foreach (Vertex v in gr.allvertexs)
-            {
-                double sum = 0;
-                if (v.visited == true) continue;
-                foreach (Edge e in v.Edges)
-                {
-                    if (e.End.visited == true || e.First.visited == true)
-                    {
-                        sum += e.Length;
-                    }
-
-                }
-                if (maxedge > sum) { maxedge = sum; cur = v; }
-            }
-            if (cur != null) have.Add(cur);
-            while (have.Count != countVer)
-            {
-                foreach (Vertex v in gr.allvertexs)
-                {
-                    double sum = 0;
-                    if (v.visited == true) continue;
-                    foreach (Edge e in v.Edges)
-                    {
-                        if (e.End.visited == true || e.First.visited == true)
-                        {
-                            sum += e.Length;
-                        }
-
-                    }
-                    sum -= v.Weight;
-                    if (maxedge > sum) { maxedge = sum; cur = v; }
-                }
-                if (cur != null) have.Add(cur);
-
-
-
-
-            }
-        }
+        
         public static void Bliz2(Graph gr,Vertex start)
         {
-            /* //init
-             foreach (var v in gr.allvertexs)
-             {
-
-                 v.prev = null;
-                 v.visited = false;
-             }
-
-             start.visited = true;
-             start.prev = null;
-
-             Queue<Vertex> que = new Queue<Vertex>();
-             que.Enqueue(start);//включать De выключать
-             int k = 0;
-             while (que.Count > 0)
-             {
-
-                 double minegde = Double.MaxValue;
-
-                 Vertex u = que.Dequeue();
-                 Vertex next = null;
-                 if (k >= 3)
-                 {
-                    double minSumEdge = 200;
-                     Edge temp = null;
-                     double emax = 0;
-                     foreach (Edge e2 in gr.alledges)
-                     {
-                         if (e2.End.visited == true & emax < e2.Length&e2.First.visited==true)
-                         {
-                             emax = e2.Length;
-                             temp = e2;
-                         }
-                     }
-                     foreach (Vertex v in gr.allvertexs)
-                     {
-                         double sum = 0;
-                         if (!v.visited)
-                         {
-                             foreach(Edge e in v.Edges)
-                             {
-                                 if (temp.First==e.First || temp.End==e.End)
-                                 {
-                                     sum += e.Length;
-                                 }
-
-                             }
-                             sum -= temp.Length;
-                             if (sum < minSumEdge)
-                             { minegde = sum;
-                                 next = v;
-
-                             }
-
-                         }
-
-
-                     }
-                     temp.End.prev = next;
-                     next.prev = temp.First;
-
-
-
-                 }
-                 else { 
-                 foreach (Edge e in u.Edges)
-                 {
-                     Vertex r = e.End;
-
-
-                     if (r.visited == false&&e.Length<minegde&&e.First==u )
-                     {
-
-                         minegde = e.Length;
-                         next = r;
-                     }
-
-                 }
-                 }
-
-                 if (next != null)
-                 {
-                     if (k != 2) { next.visited = true; next.prev = u; }
-
-                     que.Enqueue(next);
-                 }
-                 k++;
-                 u.visited = true;
-
-             }
-             ViewBFS(gr, start);*/
+        
+            Console.WriteLine("........................");
             double mi = 200;
             Edge tem = null;
             Vertex next = start;
+            start.visited=true;
             List<Edge> edgesnn = new List<Edge>();
             int k = 0;
             do
             {
-                if (k >= 3)
+                mi = 200;
+                if (gr.allvertexs.Count - 1 == k)
                 {
-                    foreach(Vertex v in gr.allvertexs)
+                    foreach (Edge ee in gr.alledges)
                     {
-                        if (!v.visited)
+                        if (ee.First == next && ee.End == start)
                         {
-                            
-                            foreach(Edge e in v.Edges)
-                            {
-                                if (e.First == v&& e.End.visited==true)
-                                {
-                                    edgesnn.Add(e);/////
-                                }
-                            }
+                            edgesnn.Add(ee);
+                            break;
                         }
                     }
-                }
-                else
-                {
-                    
-                    foreach (Edge e in next.Edges)
-                    {
-                        if (e.First == next)
-                        {
-                            if (mi > e.Length)
-                            {
-                                mi = e.Length;
-                                tem = e;
-                                
-                            }
-                        }
+                    break;
 
-                    }
                 }
+                foreach (Edge e in next.Edges)
+                {
+                    if (e.First == next && e.End.visited != true)
+                    {
+                        if (mi > e.Length)
+                        {
+                            mi = e.Length;
+                            tem = e;
+
+                        }
+                    }
+                    
+                }
+                /*}*/
                 edgesnn.Add(tem);
                 tem.End.prev = next;
                 next = tem.End;
-            } while (start == next);
                 
-            
+                next.visited = true;
+                k++;
+            } while (start != next);
+            double summ = 0;  
+            foreach(Edge e in edgesnn)
+            {
+               Console.Write(String.Format( e.ToString()+"-->" ));
+                summ += e.Length;
+            }
+            Console.WriteLine("Сумма:");
+            Console.Write(summ);
            
         }
-        public static void ViewBFS(Graph gr,Vertex start)
-        {
-            Console.WriteLine("All Path to {0}", start);
-            foreach (var v in gr.allvertexs)
-            {
-                if (v != start)
-                {
-                    var tmp = v;
-                    while (tmp != null)
-                    {
-                        Console.Write("{0} => ", tmp); tmp = tmp.prev;
-                    }
-                    Console.WriteLine();
-                }
-            }
-        }
+        
         public static int Bag(List<int[]> pi, int vob)
         {
             int n = pi.Count;
