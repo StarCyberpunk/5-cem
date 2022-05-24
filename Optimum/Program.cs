@@ -64,49 +64,68 @@ namespace Optimum
             Matrix res = Extremum.Init(postav, poluch, stoimost);
 
 
-
-            Graph graph = new Graph();
-            Vertex v1 = new Vertex("1");
-            Vertex v2 = new Vertex("2");
-            Vertex v3 = new Vertex("3");
-            Vertex v4 = new Vertex("4");
-            Vertex v5 = new Vertex("5");
-           
-
-            graph.AddVertex(v1);
-            graph.AddVertex(v2);
-            graph.AddVertex(v3);
-            graph.AddVertex(v4);
-            graph.AddVertex(v5);
-          
+            /*
+                        Graph graph = new Graph();
+                        Vertex v1 = new Vertex("1");
+                        Vertex v2 = new Vertex("2");
+                        Vertex v3 = new Vertex("3");
+                        Vertex v4 = new Vertex("4");
+                        Vertex v5 = new Vertex("5");
 
 
-            graph.AddEdge(v1, v2,12);
-            graph.AddEdge(v1, v4,8);
-            graph.AddEdge(v1, v5,9);
-            graph.AddEdge(v1, v3,5);
-           graph.AddEdge(v2, v1,12);
-            graph.AddEdge(v2, v3,10);
-            graph.AddEdge(v2, v4,6);
-            graph.AddEdge(v2, v5,4);
-            graph.AddEdge(v3, v1,5);
-            graph.AddEdge(v3, v2,10);
-            graph.AddEdge(v3, v4,8);
-            graph.AddEdge(v3, v5,7);
-            graph.AddEdge(v4, v1,8);
-           graph.AddEdge(v4, v2,6);
-            graph.AddEdge(v4, v3,8);
-            graph.AddEdge(v4, v5,12);
-           graph.AddEdge(v5, v1,9);
-            graph.AddEdge(v5, v2,4);
-            graph.AddEdge(v5, v3,7);
-           graph.AddEdge(v5, v4,12);
+                        graph.AddVertex(v1);
+                        graph.AddVertex(v2);
+                        graph.AddVertex(v3);
+                        graph.AddVertex(v4);
+                        graph.AddVertex(v5);
+
+                        graph.AddEdge(v1, v2, 10);
+                        graph.AddEdge(v1, v4, 5);
+                        graph.AddEdge(v1, v5, 13);
+                        graph.AddEdge(v1, v3, 6);
+                        graph.AddEdge(v2, v1, 10);
+                        graph.AddEdge(v2, v3, 11);
+                        graph.AddEdge(v2, v4, 8);
+                        graph.AddEdge(v2, v5, 7);
+                        graph.AddEdge(v3, v1, 6);
+                        graph.AddEdge(v3, v2, 11);
+                        graph.AddEdge(v3, v4, 12);
+                        graph.AddEdge(v3, v5, 4);
+                        graph.AddEdge(v4, v1, 5);
+                        graph.AddEdge(v4, v2, 8);
+                        graph.AddEdge(v4, v3, 12);
+                        graph.AddEdge(v4, v5, 9);
+                        graph.AddEdge(v5, v1, 13);
+                        graph.AddEdge(v5, v2, 7);
+                        graph.AddEdge(v5, v3, 4);
+                        graph.AddEdge(v5, v4, 9);
+                        Extremum.Bliz2(graph, v3);*/
+            /* graph.AddEdge(v1, v2,12);
+             graph.AddEdge(v1, v4,8);
+             graph.AddEdge(v1, v5,9);
+             graph.AddEdge(v1, v3,5);
+            graph.AddEdge(v2, v1,12);
+             graph.AddEdge(v2, v3,10);
+             graph.AddEdge(v2, v4,6);
+             graph.AddEdge(v2, v5,4);
+             graph.AddEdge(v3, v1,5);
+             graph.AddEdge(v3, v2,10);
+             graph.AddEdge(v3, v4,8);
+             graph.AddEdge(v3, v5,7);
+             graph.AddEdge(v4, v1,8);
+            graph.AddEdge(v4, v2,6);
+             graph.AddEdge(v4, v3,8);
+             graph.AddEdge(v4, v5,12);
+            graph.AddEdge(v5, v1,9);
+             graph.AddEdge(v5, v2,4);
+             graph.AddEdge(v5, v3,7);
+            graph.AddEdge(v5, v4,12);
+ */
+
+            /*graph.ViewGraph();*/
 
 
-            graph.ViewGraph();
 
-            Extremum.Bliz2(graph, v2);
-            
 
             /* List<int[]> pi = new List<int[]>();
              int[] p1 = new int[2] { 5,2};
@@ -168,6 +187,37 @@ namespace Optimum
             Console.ReadKey();
             Matrix m12 = new Matrix(n12);
             Extremum.TeoriaIgrFirst(m12);*/
+            Graph gr2 = new Graph();
+            
+            Vertex v1 = new Vertex("a");
+            Vertex v2 = new Vertex("b");
+            Vertex v3 = new Vertex("c");
+            Vertex v4 = new Vertex("d");
+            Vertex v5 = new Vertex("e");
+            Vertex v6 = new Vertex("s");
+            Vertex v7 = new Vertex("t");
+
+
+            gr2.AddVertex(v1);
+            gr2.AddVertex(v2);
+            gr2.AddVertex(v3);
+            gr2.AddVertex(v4);
+            gr2.AddVertex(v5);
+            gr2.AddVertex(v6);
+            gr2.AddVertex(v7);
+            
+
+            gr2.AddEdge(v6, v1, 5);
+            gr2.AddEdge(v6, v2, 3);
+            gr2.AddEdge(v1, v2, 4);
+            gr2.AddEdge(v2, v4, 5);
+            gr2.AddEdge(v1, v3, 2);
+            gr2.AddEdge(v3, v7, 7);
+            gr2.AddEdge(v4, v7, 5);
+            gr2.AddEdge(v4, v3, 6);
+
+
+            Extremum.Potok(gr2,v6);
             Console.ReadKey();
         }
     }

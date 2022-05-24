@@ -514,7 +514,7 @@ namespace Optimum
         {
         
             Console.WriteLine("........................");
-            double mi = 200;
+            double mi = Double.MaxValue;
             Edge tem = null;
             Vertex next = start;
             start.visited=true;
@@ -522,7 +522,7 @@ namespace Optimum
             int k = 0;
             do
             {
-                mi = 200;
+                mi = Double.MaxValue;
                 if (gr.allvertexs.Count - 1 == k)
                 {
                     foreach (Edge ee in gr.alledges)
@@ -711,7 +711,83 @@ namespace Optimum
 
             return min;
         }
+        public static void Potok(Graph gr,Vertex start)
+        {
+            double potok = 0;
+            foreach (var v in gr.allvertexs)
+            {
+               
+                v.prev = null;
+                v.visited = false;
+            }
+            start.Weight = 0;
+            start.visited = true;
+            start.prev = null;
+            Queue<Vertex> que = new Queue<Vertex>();
+            que.Enqueue(start);//включать De выключать
+            while (que.Count > 0)
+            {
 
+                Vertex u = que.Dequeue();
+                double min = 0;
+                foreach (Edge e in u.Edges)
+                {
+                    Vertex r = e.End;
+                    if (r.visited == false)
+                    {
+                        if (min < e.Length)
+                        {
+                            min = e.Length;
+                        }
+                        r.visited = true;
+                        r.Weight = u.Weight + 1;
+                        r.prev = u;
+                        que.Enqueue(r);
+                    }
+                }
+                u.visited = true;
+            }
+        }
+
+        public static void Potok2(Graph gr,Vertex startVertex)
+        {
+            
+                foreach (Vertex vv in gr.allvertexs)
+                {
+                    vv.visited = false;
+                    vv.prev = null;
+                }
+
+                startVertex.time = 0;
+
+                foreach (Vertex vv in gr.allvertexs)
+                {
+                    if (vv.visited == false)
+                    {
+                        DFS_Visit2(startVertex);
+                    }
+                }
+            
+
+            
+        }
+        private static void DFS_Visit2(Vertex u)     //Для DFS
+        {
+            u.visited = true;
+            u.discovered = u.time;
+            u.time += 1;    //Счетчик времени увеличиваем на 1
+
+            foreach (Edge ee in u.Edges)
+            {
+                Vertex v = ee.End;
+                if (v.visited == false)
+                {
+                    v.prev = u;
+                    DFS_Visit2(v);
+                }
+
+            }
+        }
 
         private static double[] FindMinIG(Vector v)
         {
