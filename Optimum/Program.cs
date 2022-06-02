@@ -106,7 +106,34 @@ namespace Optimum
             graph.ViewGraph();
 
             Extremum.Bliz2(graph, v2);
-            
+
+
+            Graph potok2=new Graph();
+            Vertex ps = new Vertex("s");
+            Vertex p2 = new Vertex("1");
+            Vertex p3 = new Vertex("2");
+            Vertex p4 = new Vertex("3");
+            Vertex p5 = new Vertex("4");
+            Vertex pt = new Vertex("t");
+
+            potok2.AddVertex(ps);
+            potok2.AddVertex(p2);
+            potok2.AddVertex(p3);
+            potok2.AddVertex(p4);
+            potok2.AddVertex(p5);
+            potok2.AddVertex(pt);
+
+
+            potok2.AddEdge(ps, p2, 3);
+            potok2.AddEdge(ps, p3, 5);
+            potok2.AddEdge(p3, p2, 4);
+            potok2.AddEdge(p2, p4, 5);
+            potok2.AddEdge(p3, p5, 2);
+            potok2.AddEdge(p4, p5, 6);
+            potok2.AddEdge(p5, pt, 7);
+            potok2.AddEdge(p4, pt, 5);
+
+
 
             /* List<int[]> pi = new List<int[]>();
              int[] p1 = new int[2] { 5,2};
