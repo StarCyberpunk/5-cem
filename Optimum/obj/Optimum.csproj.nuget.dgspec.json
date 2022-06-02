@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\Optimum.csproj": {}
+    "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj": {}
   },
   "projects": {
-    "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\Optimum.csproj": {
+    "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\Optimum.csproj",
+        "projectUniqueName": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj",
         "projectName": "Optimum",
-        "projectPath": "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\Optimum.csproj",
-        "packagesPath": "C:\\Users\\notma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\obj\\",
+        "projectPath": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj",
+        "packagesPath": "C:\\Users\\БЛэкс\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\notma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\БЛэкс\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -49,24 +49,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[3.1.10, 3.1.10]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[3.1.23, 3.1.23]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[3.1.0, 3.1.0]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[3.1.0, 3.1.0]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"

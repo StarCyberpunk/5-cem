@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7z5h0LQ93XfMayLjG/ALWW3r37mgN5BQCZVRK8xfexaZl8nStVm7EelxvHv88CJgSQMlKmf3hrR151IHSlU0Kg==",
+  "dgSpecHash": "FfmAxHyowTkKJarRnpiDmnHt5uQcOeUjITJ3y12SJ3B7t17XWwGmfo03LtxkBez5+GdZC8m7wFKp49fjcQzRxQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\notma\\source\\repos\\5-cem-6-sem\\Optimum\\Optimum.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\notma\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.23\\microsoft.netcore.app.host.win-x64.3.1.23.nupkg.sha512",
-    "C:\\Users\\notma\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\notma\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\notma\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\БЛэкс\\Desktop\\5 cem\\PK\\5-cem\\Optimum\\Optimum.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
